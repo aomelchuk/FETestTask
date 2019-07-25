@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>Products</h3>
+    <table class="table">
+      <thead class="thead-dark pl-table-head">
+      <tr>
+        <th class="col pl-table-head__cell">Id</th>
+        <th class="col pl-table-head__cell">Name</th>
+        <th class="col pl-table-head__cell">SKU</th>
+        <th class="col pl-table-head__cell">Type</th>
+        <th class="col pl-table-head__cell">Customer type</th>
+        <th class="col pl-table-head__cell">Valid value</th>
+        <th class="col pl-table-head__cell">Price</th>
+        <th class="col pl-table-head__cell">Allow recharge</th>
+        <th class="col pl-table-head__cell">Recharge price</th>
+        <th class="col pl-table-head__cell">Vendor name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of db">
+        <td class="pl-table-body__cell">{{product.id}}</td>
+        <td  class="pl-table-body__cell">{{product.name}}</td>
+        <td  class="pl-table-body__cell">{{product.sku}}</td>
+        <td  class="pl-table-body__cell">{{product.type}}</td>
+        <td  class="pl-table-body__cell">{{product.customerType}}</td>
+        <td  class="pl-table-body__cell">{{product.validValue}}</td>
+        <td  class="pl-table-body__cell">{{product.price}}</td>
+        <td  class="pl-table-body__cell">{{product.allowRecharge}}</td>
+        <td  class="pl-table-body__cell">{{product.rechargePrice}}</td>
+        <td  class="pl-table-body__cell">{{product.vendor.name}}</td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>

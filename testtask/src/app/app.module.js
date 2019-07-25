@@ -14,6 +14,8 @@ var forms_1 = require('@angular/forms');
 var app_routing_module_1 = require('./app-routing.module');
 var app_component_1 = require('./app.component');
 var list_filter_pipe_1 = require('./shared/list-filter.pipe');
+var product_list_component_1 = require('./product-list/product-list.component');
+var add_product_popup_component_1 = require('./add-product-popup/add-product-popup.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -21,7 +23,9 @@ var AppModule = (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
-                list_filter_pipe_1.ListFilterPipe
+                list_filter_pipe_1.ListFilterPipe,
+                product_list_component_1.ProductListComponent,
+                add_product_popup_component_1.AddProductPopupComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,

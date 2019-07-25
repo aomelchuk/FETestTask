@@ -1,0 +1,128 @@
+<!-- open btn -->
+<div class="row">
+  <div class="col-md-10">
+    <button type="button" class="btn btn-primary">Add new</button>
+  </div>
+</div>
+<!-- end open btn -->
+
+<!--popup body -->
+<div class="row">
+  <div class="col-md-10">
+    <form action="#">
+      <input class="form-control" type="text" id="newProductSku" placeholder="SKU">
+
+      <input class="form-control" type="text" id="newProductName" placeholder="Name">
+
+      <select class="form-control" id="newProductType"  placeholder="Type" >
+        <option  *ngFor="let type of typeValues | keyvalue" value="{{type.key}}">{{type.value}}</option>
+
+      </select>
+
+      <select class="form-control" id="newProductCustomerType"  placeholder="Customer  Type"  >
+        <option  *ngFor="let type of customerTypeValues | keyvalue" value="{{type.key}}">{{type.value}}</option>
+
+      </select>
+
+      <input class="form-control" type="text" id="newProductValidValue" placeholder="ValidValue" [disabled]="true"> <!-- change-->
+
+      <input class="form-control" type="text" id="newProductPrice" placeholder="Price" >
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="newProductAllowRecharge">
+        <label class="form-check-label" for="newProductAllowRecharge">
+          Allow recharge
+        </label>
+      </div>
+
+      <input class="form-control" type="text" id="newProductRechargePrice" placeholder="Recharge price" [disabled]="true"> <!-- change-->
+
+      <div class="row">
+
+
+        <!-- include types lists -->
+        <div class="col-md-12 ">
+          <div class="row">
+            <div class="col-md-12">Include type</div>
+
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
+
+              <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
+
+              <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action " *ngFor="let product of db  | listFilter:filtertagsleft">
+                  <!--<a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db  "> -->
+
+                  {{product.name}} ({{product.sku}})
+                </a>
+
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright" name="listFilterValue">
+
+              <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
+
+              <a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db | listFilter:filtertagsright">
+                {{product.name}} ({{product.sku}})
+              </a>
+
+
+            </div>
+          </div>
+
+        </div>
+        <!-- end include types lists -->
+
+        <!-- pass types lists -->
+        <div class="col-md-12 ">
+          <div class="row">
+            <div class="col-md-12">Pass type</div>
+
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
+
+              <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
+
+              <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action " *ngFor="let product of db  | listFilter:filtertagsleft">
+                  <!--<a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db  "> -->
+
+                  {{product.name}} ({{product.sku}})
+                </a>
+
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright" name="listFilterValue">
+
+              <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
+
+              <a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db | listFilter:filtertagsright">
+                {{product.name}} ({{product.sku}})
+              </a>
+
+
+            </div>
+          </div>
+
+        </div>
+        <!-- end include types lists -->
+
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+</div>
+<!-- end popup body-->

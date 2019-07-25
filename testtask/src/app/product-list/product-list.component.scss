@@ -1,0 +1,19 @@
+@mixin cell {
+  vertical-align: middle;
+  padding: .5rem;
+}
+
+.pl-table-head {
+  &__cell {
+    @include cell;
+    width: auto;
+  }
+
+}
+
+.pl-table-body {
+  &__cell {
+    @include cell;
+    font-size: .95rem;
+  }
+}
