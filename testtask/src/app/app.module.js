@@ -16,6 +16,7 @@ var app_component_1 = require('./app.component');
 var list_filter_pipe_1 = require('./shared/list-filter.pipe');
 var product_list_component_1 = require('./product-list/product-list.component');
 var add_product_popup_component_1 = require('./add-product-popup/add-product-popup.component');
+var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -32,7 +33,7 @@ var AppModule = (function () {
                 app_routing_module_1.AppRoutingModule,
                 forms_1.FormsModule
             ],
-            providers: [],
+            providers: [ng_bootstrap_1.NgbModalConfig, ng_bootstrap_1.NgbModal],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);

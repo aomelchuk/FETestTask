@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 
+
+
 //import { HttpClientModule } from '@angular/common/http';
 //import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
 //import {InMemoryDataService} from './app/shared/data.service';
@@ -16,7 +18,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { AddProductPopupComponent } from './add-product-popup/add-product-popup.component';
 
 
-
+import {NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,13 +26,15 @@ import { AddProductPopupComponent } from './add-product-popup/add-product-popup.
     ListFilterPipe,
     ProductListComponent,
     AddProductPopupComponent
+
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [NgbModalConfig, NgbModal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,8 +6,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
+var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var AddProductPopupComponent = (function () {
-    function AddProductPopupComponent() {
+    function AddProductPopupComponent(config, modalService) {
+        this.modalService = modalService;
         this.db = [
             {
                 "id": 1024,
@@ -2647,14 +2649,21 @@ var AddProductPopupComponent = (function () {
             'ADULT': 'Adult',
             'CHILD': 'Child'
         };
+        // customize default values of modals used by this component tree
+        config.backdrop = 'static';
+        config.keyboard = false;
     }
+    AddProductPopupComponent.prototype.open = function (content) {
+        this.modalService.open(content);
+    };
     AddProductPopupComponent.prototype.ngOnInit = function () {
     };
     AddProductPopupComponent = __decorate([
         core_1.Component({
             selector: 'add-product-popup',
             templateUrl: './add-product-popup.component.html',
-            styleUrls: ['./add-product-popup.component.scss']
+            styleUrls: ['./add-product-popup.component.scss'],
+            providers: [ng_bootstrap_1.NgbModalConfig, ng_bootstrap_1.NgbModal]
         })
     ], AddProductPopupComponent);
     return AddProductPopupComponent;

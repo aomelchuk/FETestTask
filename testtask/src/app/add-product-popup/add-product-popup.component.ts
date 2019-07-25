@@ -1,14 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'add-product-popup',
   templateUrl: './add-product-popup.component.html',
-  styleUrls: ['./add-product-popup.component.scss']
+  styleUrls: ['./add-product-popup.component.scss'],
+  providers: [NgbModalConfig, NgbModal]
 })
 export class AddProductPopupComponent implements OnInit {
 
-  constructor() { }
+  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+    // customize default values of modals used by this component tree
+    config.backdrop = 'static';
+    config.keyboard = false;
+  }
 
+  open(content) {
+    this.modalService.open(content);
+  }
   ngOnInit() {
   }
 
