@@ -6,17 +6,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var platform_browser_1 = require('@angular/platform-browser');
-var forms_1 = require('@angular/forms');
 var core_1 = require('@angular/core');
+var forms_1 = require('@angular/forms');
+//import { HttpClientModule } from '@angular/common/http';
+//import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
+//import {InMemoryDataService} from './app/shared/data.service';
 var app_routing_module_1 = require('./app-routing.module');
 var app_component_1 = require('./app.component');
+var list_filter_pipe_1 = require('./shared/list-filter.pipe');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             declarations: [
-                app_component_1.AppComponent
+                app_component_1.AppComponent,
+                list_filter_pipe_1.ListFilterPipe
             ],
             imports: [
                 platform_browser_1.BrowserModule,

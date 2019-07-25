@@ -1,21 +1,185 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container">
+
+  <!-- list of products -->
+  <div class="row">
+    <div class="col-md-4">
+      <h3>Products</h3>
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">SKU</th>
+          <th scope="col">Type</th>
+          <th scope="col">Customer type</th>
+          <th scope="col">Valid value</th>
+          <th class="col">Price</th>
+          <th class="col">Allow recharge</th>
+          <th class="col">Recharge price</th>
+          <th class="col">Vendor name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of db">
+          <td>{{product.id}}</td>
+          <td>{{product.name}}</td>
+          <td>{{product.sku}}</td>
+          <td>{{product.type}}</td>
+          <td>{{product.customerType}}</td>
+          <td>{{product.validValue}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.allowRecharge}}</td>
+          <td>{{product.rechargePrice}}</td>
+          <td>{{product.vendor.name}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <!-- end list of products -->
+
+
+
+
+
+<!-- For future popup -->
+
+  <!-- open btn -->
+  <div class="row">
+    <div class="col-md-10">
+      <button type="button" class="btn btn-primary">Add new</button>
+    </div>
+  </div>
+<!-- end open btn -->
+
+  <!--popup body -->
+  <div class="row">
+   <div class="col-md-10">
+     <form action="#">
+       <input class="form-control" type="text" id="newProductSku" placeholder="SKU">
+
+       <input class="form-control" type="text" id="newProductName" placeholder="Name">
+
+       <select class="form-control" id="newProductType"  placeholder="Type" >
+         <option  *ngFor="let type of typeValues | keyvalue" value="{{type.key}}">{{type.value}}</option>
+
+       </select>
+
+       <select class="form-control" id="newProductCustomerType"  placeholder="Customer  Type"  >
+         <option  *ngFor="let type of customerTypeValues | keyvalue" value="{{type.key}}">{{type.value}}</option>
+
+       </select>
+
+       <input class="form-control" type="text" id="newProductValidValue" placeholder="ValidValue" [disabled]="true"> <!-- change-->
+
+       <input class="form-control" type="text" id="newProductPrice" placeholder="Price" >
+
+       <div class="form-check">
+         <input class="form-check-input" type="checkbox" value="" id="newProductAllowRecharge">
+         <label class="form-check-label" for="newProductAllowRecharge">
+           Allow recharge
+         </label>
+       </div>
+
+       <input class="form-control" type="text" id="newProductRechargePrice" placeholder="Recharge price" [disabled]="true"> <!-- change-->
+
+       <div class="row">
+
+
+         <!-- include types lists -->
+         <div class="col-md-12 ">
+           <div class="row">
+             <div class="col-md-12">Include type</div>
+
+             <div class="col-md-6">
+               <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
+
+               <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
+
+               <div class="list-group">
+                 <a href="#" class="list-group-item list-group-item-action " *ngFor="let product of db  | listFilter:filtertagsleft">
+                   <!--<a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db  "> -->
+
+                   {{product.name}} ({{product.sku}})
+                 </a>
+
+               </div>
+             </div>
+
+             <div class="col-md-6">
+               <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright" name="listFilterValue">
+
+               <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
+
+               <a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db | listFilter:filtertagsright">
+                {{product.name}} ({{product.sku}})
+               </a>
+
+
+             </div>
+           </div>
+
+         </div>
+         <!-- end include types lists -->
+
+         <!-- pass types lists -->
+         <div class="col-md-12 ">
+           <div class="row">
+             <div class="col-md-12">Pass type</div>
+
+             <div class="col-md-6">
+               <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
+
+               <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
+
+               <div class="list-group">
+                 <a href="#" class="list-group-item list-group-item-action " *ngFor="let product of db  | listFilter:filtertagsleft">
+                   <!--<a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db  "> -->
+
+                   {{product.name}} ({{product.sku}})
+                 </a>
+
+               </div>
+             </div>
+
+             <div class="col-md-6">
+               <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright" name="listFilterValue">
+
+               <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
+
+               <a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db | listFilter:filtertagsright">
+                 {{product.name}} ({{product.sku}})
+               </a>
+
+
+             </div>
+           </div>
+
+         </div>
+         <!-- end include types lists -->
+
+
+       </div>
+
+       <div class="row">
+         <div class="col-md-12">
+           <button type="button" class="btn btn-primary">Add</button>
+         </div>
+       </div>
+
+
+     </form>
+   </div>
+ </div>
+  <!-- end popup body-->
+
+
+<!-- end future popup -->
+
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
 
 <!-- <router-outlet></router-outlet> -->
