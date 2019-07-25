@@ -15,6 +15,8 @@ export class AppComponent {
 
   filtertagsright = '';
   filtertagsleft = '';
+  filtertagsright1 = '';
+  filtertagsleft1 = '';
 
 
 

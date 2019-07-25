@@ -17,7 +17,12 @@ export class AddProductPopupComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content);
+    try {
+      this.modalService.open(content);
+    }
+   catch (ex) {
+     console.log(ex);
+   }
   }
   ngOnInit() {
   }

@@ -2654,7 +2654,12 @@ var AddProductPopupComponent = (function () {
         config.keyboard = false;
     }
     AddProductPopupComponent.prototype.open = function (content) {
-        this.modalService.open(content);
+        try {
+            this.modalService.open(content);
+        }
+        catch (ex) {
+            console.log(ex);
+        }
     };
     AddProductPopupComponent.prototype.ngOnInit = function () {
     };

@@ -18,7 +18,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { AddProductPopupComponent } from './add-product-popup/add-product-popup.component';
 
 
-import {NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -32,9 +32,13 @@ import {NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
-  providers: [NgbModalConfig, NgbModal],
+  providers: [
+    NgbModalConfig,
+    NgbModal
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

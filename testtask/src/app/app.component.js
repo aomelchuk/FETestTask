@@ -12,6 +12,8 @@ var AppComponent = (function () {
         this.title = 'testtask';
         this.filtertagsright = '';
         this.filtertagsleft = '';
+        this.filtertagsright1 = '';
+        this.filtertagsleft1 = '';
         this.db = [
             {
                 "id": 1024,

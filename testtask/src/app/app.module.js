@@ -31,9 +31,13 @@ var AppModule = (function () {
             imports: [
                 platform_browser_1.BrowserModule,
                 app_routing_module_1.AppRoutingModule,
-                forms_1.FormsModule
+                forms_1.FormsModule,
+                ng_bootstrap_1.NgbModule
             ],
-            providers: [ng_bootstrap_1.NgbModalConfig, ng_bootstrap_1.NgbModal],
+            providers: [
+                ng_bootstrap_1.NgbModalConfig,
+                ng_bootstrap_1.NgbModal
+            ],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);

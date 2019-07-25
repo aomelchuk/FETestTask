@@ -1,7 +1,7 @@
 <ng-template #content let-c="close" let-d="dismiss">
 
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+    <h4 class="modal-title" id="modal-basic-title">Add new product</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -12,7 +12,7 @@
 
     <!--popup body -->
     <div class="row">
-      <div class="col-md-10">
+      <div class="col-md-12">
         <form action="#">
           <input class="form-control" type="text" id="newProductSku" placeholder="SKU">
 
@@ -53,14 +53,14 @@
                   <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
 
                   <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
+                  <div class="types-list-wrapper">
+                    <div class="list-group">
+                      <a href="#" class="list-group-item list-group-item-action type-list-item"
+                         *ngFor="let product of db  | listFilter:filtertagsleft">
+                         {{product.name}} ({{product.sku}})
+                      </a>
 
-                  <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action " *ngFor="let product of db  | listFilter:filtertagsleft">
-                      <!--<a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db  "> -->
-
-                      {{product.name}} ({{product.sku}})
-                    </a>
-
+                    </div>
                   </div>
                 </div>
 
@@ -68,10 +68,12 @@
                   <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright" name="listFilterValue">
 
                   <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
-
-                  <a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db | listFilter:filtertagsright">
-                    {{product.name}} ({{product.sku}})
-                  </a>
+                  <div class="types-list-wrapper">
+                    <a href="#" class="list-group-item list-group-item-action type-list-item"
+                       *ngFor="let product of db | listFilter:filtertagsright">
+                      {{product.name}} ({{product.sku}})
+                    </a>
+                  </div>
 
 
                 </div>
@@ -86,29 +88,35 @@
                 <div class="col-md-12">Pass type</div>
 
                 <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
+                  <!--change ngModel! -->
+                  <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft1" name="listFilterValue">
 
                   <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
+                  <div class="types-list-wrapper">
+                    <div class="list-group">
+                      <a href="#" class="list-group-item list-group-item-action type-list-item"
+                         *ngFor="let product of db  | listFilter:filtertagsleft1">
+                        {{product.name}} ({{product.sku}})
+                      </a>
 
-                  <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action " *ngFor="let product of db  | listFilter:filtertagsleft">
-                      <!--<a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db  "> -->
-
-                      {{product.name}} ({{product.sku}})
-                    </a>
-
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright" name="listFilterValue">
+                  <!--change ngModel! -->
+                  <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright1" name="listFilterValue">
 
                   <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
 
-                  <a href="#" class="list-group-item list-group-item-action active" *ngFor="let product of db | listFilter:filtertagsright">
-                    {{product.name}} ({{product.sku}})
-                  </a>
-
+                  <div class="types-list-wrapper">
+                    <div class="list-group">
+                      <a href="#" class="list-group-item list-group-item-action type-list-item"
+                         *ngFor="let product of db | listFilter:filtertagsright1">
+                        {{product.name}} ({{product.sku}})
+                      </a>
+                    </div>
+                  </div>
 
                 </div>
               </div>
@@ -119,11 +127,7 @@
 
           </div>
 
-          <div class="row">
-            <div class="col-md-12">
-              <button type="button" class="btn btn-primary">Add</button>
-            </div>
-          </div>
+
 
 
         </form>
