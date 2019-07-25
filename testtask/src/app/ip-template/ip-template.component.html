@@ -5,11 +5,13 @@
     <div class="col-md-6">
       <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
 
-      <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
+      <button type="button" class="btn btn-light"> >> </button>
+      <button type="button" class="btn btn-light" (click)="moveSelected('firstArr')"> > </button>
       <div class="types-list-wrapper">
         <div class="list-group">
           <a href="#" class="list-group-item list-group-item-action type-list-item"
-             (click)="toggle()"
+             [ngClass]="{active:product.status}"
+             (click)="toggle(product)"
              *ngFor="let product of db  | listFilter:filtertagsleft">
             {{product.name}} ({{product.sku}})
           </a>
@@ -24,8 +26,9 @@
       <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
       <div class="types-list-wrapper">
         <a href="#" class="list-group-item list-group-item-action type-list-item"
-           (click)="toggle()"
-           *ngFor="let product of includeArr | listFilter:filtertagsright">
+           [ngClass]="{active:product.status}"
+           (click)="toggle(product)"
+           *ngFor="let product of include | listFilter:filtertagsright">
           {{product.name}} ({{product.sku}})
         </a>
       </div>
