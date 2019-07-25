@@ -17,6 +17,7 @@ var list_filter_pipe_1 = require('./shared/list-filter.pipe');
 var product_list_component_1 = require('./product-list/product-list.component');
 var add_product_popup_component_1 = require('./add-product-popup/add-product-popup.component');
 var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
+var ip_template_component_1 = require('./ip-template/ip-template.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -26,7 +27,8 @@ var AppModule = (function () {
                 app_component_1.AppComponent,
                 list_filter_pipe_1.ListFilterPipe,
                 product_list_component_1.ProductListComponent,
-                add_product_popup_component_1.AddProductPopupComponent
+                add_product_popup_component_1.AddProductPopupComponent,
+                ip_template_component_1.IpTemplateComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,

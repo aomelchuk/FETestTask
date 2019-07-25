@@ -19,13 +19,15 @@ import { AddProductPopupComponent } from './add-product-popup/add-product-popup.
 
 
 import {NgbModule, NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { IpTemplateComponent } from './ip-template/ip-template.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListFilterPipe,
     ProductListComponent,
-    AddProductPopupComponent
+    AddProductPopupComponent,
+    IpTemplateComponent
 
 
   ],

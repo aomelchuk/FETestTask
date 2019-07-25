@@ -66,91 +66,16 @@
             <div class="col-md-12  text-center"><h5>Inner Products</h5></div>
           </div>
           <div class="row">
-            <!-- include types lists -->
             <div class="col-md-12 ">
-              <div class="row">
-                <div class="col-md-12 py-3">Include type</div>
+              <!-- include types lists -->
+              <ip-template [includeArr]="includeObj.include" [typeArr]="'include'"></ip-template>
+              <!-- end include types lists -->
 
-                <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
-
-                  <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
-                  <div class="types-list-wrapper">
-                    <div class="list-group">
-                      <a href="#" class="list-group-item list-group-item-action type-list-item"
-                         (click)="toggle()"
-                         *ngFor="let product of db  | listFilter:filtertagsleft">
-                         {{product.name}} ({{product.sku}})
-                      </a>
-
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright" name="listFilterValue">
-
-                  <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
-                  <div class="types-list-wrapper">
-                    <a href="#" class="list-group-item list-group-item-action type-list-item"
-                       (click)="toggle()"
-                       *ngFor="let product of includeObj.include | listFilter:filtertagsright">
-                      {{product.name}} ({{product.sku}})
-                    </a>
-                  </div>
-
-
-                </div>
-              </div>
+              <!-- pass types lists -->
+              <ip-template [includeArr]="includeObj.pass" [typeArr]="'pass'"></ip-template>
+              <!-- end pass types lists -->
 
             </div>
-            <!-- end include types lists -->
-
-            <!-- pass types lists -->
-            <div class="col-md-12 ">
-              <div class="row">
-                <div class="col-md-12 py-3">Pass type</div>
-
-                <div class="col-md-6">
-                  <!--change ngModel! -->
-                  <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft1" name="listFilterValue">
-
-                  <button type="button" class="btn btn-light"> >> </button><button type="button" class="btn btn-light"> > </button>
-                  <div class="types-list-wrapper">
-                    <div class="list-group">
-                      <a href="#" class="list-group-item list-group-item-action type-list-item"
-                         (click)="toggle()"
-                         *ngFor="let product of db  | listFilter:filtertagsleft1">
-                        {{product.name}} ({{product.sku}})
-                      </a>
-
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <!--change ngModel! -->
-                  <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright1" name="listFilterValue">
-
-                  <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
-
-                  <div class="types-list-wrapper">
-                    <div class="list-group">
-                      <a href="#" class="list-group-item list-group-item-action type-list-item"
-                         (click)="toggle()"
-                         *ngFor="let product of includeObj.include | listFilter:filtertagsright1">
-                        {{product.name}} ({{product.sku}})
-                      </a>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-            <!-- end include types lists -->
-
-
           </div>
           <!--End type Lists -->
 
