@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm} from '@angular/forms';
 
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -25,6 +26,15 @@ export class AddProductPopupComponent implements OnInit {
    }
   }
   ngOnInit() {
+
+  }
+
+
+  newProduct = {
+    id: 1,
+    sku:"",
+    name:"",
+    newProductAllowRecharge:false
   }
 
   db = [
@@ -2666,5 +2676,16 @@ export class AddProductPopupComponent implements OnInit {
     'ADULT':'Adult',
     'CHILD':'Child'
   }
+  includeObj= {
+    pass: [],
+    inlude:[]
+  }  
 
 }
+export class NewProduct {
+  constructor() {
+
+  }
+}
+
+

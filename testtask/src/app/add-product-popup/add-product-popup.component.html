@@ -1,7 +1,7 @@
 <ng-template #content let-c="close" let-d="dismiss">
 
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add new product</h4>
+    <h4 class="modal-title" id="modal-basic-title">Create new product</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -13,41 +13,63 @@
     <!--popup body -->
     <div class="row">
       <div class="col-md-12">
-        <form action="#">
-          <input class="form-control" type="text" id="newProductSku" placeholder="SKU">
-
-          <input class="form-control" type="text" id="newProductName" placeholder="Name">
-
-          <select class="form-control" id="newProductType"  placeholder="Type" >
-            <option  *ngFor="let type of typeValues | keyvalue" value="{{type.key}}">{{type.value}}</option>
-
-          </select>
-
-          <select class="form-control" id="newProductCustomerType"  placeholder="Customer  Type"  >
-            <option  *ngFor="let type of customerTypeValues | keyvalue" value="{{type.key}}">{{type.value}}</option>
-
-          </select>
-
-          <input class="form-control" type="text" id="newProductValidValue" placeholder="ValidValue" [disabled]="true"> <!-- change-->
-
-          <input class="form-control" type="text" id="newProductPrice" placeholder="Price" >
-
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="newProductAllowRecharge">
-            <label class="form-check-label" for="newProductAllowRecharge">
-              Allow recharge
-            </label>
-          </div>
-
-          <input class="form-control" type="text" id="newProductRechargePrice" placeholder="Recharge price" [disabled]="true"> <!-- change-->
+        <form  #addForm="ngForm"  >
 
           <div class="row">
+            <div class="col-md-6 py-2">
+              <input class="form-control" type="text" name="newProductSku" ngModel  placeholder="SKU">
+            </div>
+            <div class="col-md-6 py-2">
+              <input class="form-control" type="text" name="newProductName"  ngModel  placeholder="Name">
 
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="col-md-6 py-2">
+              <select class="form-control" name="newProductType"  placeholder="Type" ngModel="BASIC_SINGLE" >
+                <option  *ngFor="let type of typeValues | keyvalue" value="{{type.key}}" >{{type.value}}</option>
+              </select>
+            </div>
+            <div class="col-md-6 py-2">
+              <select class="form-control" name="newProductCustomerType"  placeholder="Customer  Type" ngModel="ADULT" > <!-- change!! -->
+                <option  *ngFor="let type of customerTypeValues | keyvalue" value="{{type.key}}" >{{type.value}}  </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+          <div class="col-md-6 py-2">
+            <input class="form-control" type="text" name="newProductValidValue" placeholder="ValidValue" ngModel value="" [disabled]=" addForm.value.newProductType!='BASIC_SINGLE'"> <!-- change-->
+          </div>
+          <div class="col-md-6 py-2">
+            <input class="form-control" type="text" name="newProductPrice" ngModel placeholder="Price" >
+          </div>
+        </div>
+          <div class="row">
+            <div class="col-md-6 py-2">
+              <input class="form-control" type="text" id="newProductRechargePrice" placeholder="Recharge price" [disabled]="!addForm.value.newProductAllowRecharge"> <!-- change-->
+            </div>
+            <div class="col-md-6 py-2 mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" ngModel name="newProductAllowRecharge" id="newProductAllowRecharge" >
+                <label class="form-check-label" for="newProductAllowRecharge">
+                  Allow recharge
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <hr style="color:lightgray; width:100%;">
+          <!--Type Lists -->
+          <div class="row">
+            <div class="col-md-12  text-center"><h5>Inner Products</h5></div>
+          </div>
+          <div class="row">
             <!-- include types lists -->
             <div class="col-md-12 ">
               <div class="row">
-                <div class="col-md-12">Include type</div>
+                <div class="col-md-12 py-3">Include type</div>
 
                 <div class="col-md-6">
                   <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
@@ -56,6 +78,7 @@
                   <div class="types-list-wrapper">
                     <div class="list-group">
                       <a href="#" class="list-group-item list-group-item-action type-list-item"
+                         (click)="toggle()"
                          *ngFor="let product of db  | listFilter:filtertagsleft">
                          {{product.name}} ({{product.sku}})
                       </a>
@@ -70,7 +93,8 @@
                   <button type="button" class="btn btn-light"> < </button><button type="button" class="btn btn-light"> << </button>
                   <div class="types-list-wrapper">
                     <a href="#" class="list-group-item list-group-item-action type-list-item"
-                       *ngFor="let product of db | listFilter:filtertagsright">
+                       (click)="toggle()"
+                       *ngFor="let product of includeObj.include | listFilter:filtertagsright">
                       {{product.name}} ({{product.sku}})
                     </a>
                   </div>
@@ -85,7 +109,7 @@
             <!-- pass types lists -->
             <div class="col-md-12 ">
               <div class="row">
-                <div class="col-md-12">Pass type</div>
+                <div class="col-md-12 py-3">Pass type</div>
 
                 <div class="col-md-6">
                   <!--change ngModel! -->
@@ -95,6 +119,7 @@
                   <div class="types-list-wrapper">
                     <div class="list-group">
                       <a href="#" class="list-group-item list-group-item-action type-list-item"
+                         (click)="toggle()"
                          *ngFor="let product of db  | listFilter:filtertagsleft1">
                         {{product.name}} ({{product.sku}})
                       </a>
@@ -112,7 +137,8 @@
                   <div class="types-list-wrapper">
                     <div class="list-group">
                       <a href="#" class="list-group-item list-group-item-action type-list-item"
-                         *ngFor="let product of db | listFilter:filtertagsright1">
+                         (click)="toggle()"
+                         *ngFor="let product of includeObj.include | listFilter:filtertagsright1">
                         {{product.name}} ({{product.sku}})
                       </a>
                     </div>
@@ -126,7 +152,7 @@
 
 
           </div>
-
+          <!--End type Lists -->
 
 
 
@@ -139,11 +165,11 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Add</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Create</button>
   </div>
 </ng-template>
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Add new</button>
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Create a product</button>
 
 
 

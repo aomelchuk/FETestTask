@@ -10,6 +10,12 @@ var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var AddProductPopupComponent = (function () {
     function AddProductPopupComponent(config, modalService) {
         this.modalService = modalService;
+        this.newProduct = {
+            id: 1,
+            sku: "",
+            name: "",
+            newProductAllowRecharge: false
+        };
         this.db = [
             {
                 "id": 1024,
@@ -2649,6 +2655,10 @@ var AddProductPopupComponent = (function () {
             'ADULT': 'Adult',
             'CHILD': 'Child'
         };
+        this.includeObj = {
+            pass: [],
+            inlude: []
+        };
         // customize default values of modals used by this component tree
         config.backdrop = 'static';
         config.keyboard = false;
@@ -2674,4 +2684,10 @@ var AddProductPopupComponent = (function () {
     return AddProductPopupComponent;
 }());
 exports.AddProductPopupComponent = AddProductPopupComponent;
+var NewProduct = (function () {
+    function NewProduct() {
+    }
+    return NewProduct;
+}());
+exports.NewProduct = NewProduct;
 //# sourceMappingURL=add-product-popup.component.js.map
