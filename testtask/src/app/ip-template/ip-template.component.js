@@ -11,45 +11,60 @@ var IpTemplateComponent = (function () {
     function IpTemplateComponent() {
     }
     IpTemplateComponent.prototype.ngOnInit = function () {
-        this.db = db_1.db;
-        for (var i in this.db) {
-            this.db[i].status = false;
-        }
-        this.preInclude = [];
+        this.dbTemp = [];
+        this.dbTemp = this.geDBData(db_1.db);
+        console.log(db_1.db[1]);
+        this.preIncludeDB = [];
+        this.preIncludeIncl = [];
         this.include = [];
     };
-    IpTemplateComponent.prototype.selectProduct = function (product) {
-        var temp = this.db.find(function (x) { return x.sku == product.sku; });
-        this.preInclude.push(temp);
+    IpTemplateComponent.prototype.geDBData = function (db) {
+        var newDB = [];
+        for (var i in db) {
+            newDB[i] = Object.assign({}, db[i]);
+            newDB[i].status = false;
+        }
+        return newDB;
+    };
+    IpTemplateComponent.prototype.selectProduct = function (product, source, selectedProds) {
+        var temp = source.find(function (x) { return x.sku == product.sku; });
+        if (selectedProds.find(function (x) { return x.sku == product.sku; }) != temp)
+            selectedProds.push(temp);
         product.status = true;
-        console.log(this.preInclude);
+        console.log("where is action, Billy?");
+        console.log(this.typeArr);
+        console.log(product);
     };
-    IpTemplateComponent.prototype.unselectProduct = function (product) {
-        //let temp = this.preInclude.find( x => x.sku == product.sku );
-        this.preInclude = this.preInclude.filter(function (x) { return x.sku != product.sku; });
+    IpTemplateComponent.prototype.unselectProduct = function (product, selectedProds) {
+        selectedProds = selectedProds.filter(function (x) { return x.sku != product.sku; });
         product.status = false;
-        console.log(this.preInclude);
+        console.log("where is another action, Billy?");
+        console.log(this.typeArr);
+        console.log(product);
     };
-    IpTemplateComponent.prototype.toggle = function (product) {
+    IpTemplateComponent.prototype.toggle = function (product, source, selectedProds) {
         var status;
-        console.log(this.preInclude.find(function (x) { return x.sku == product.sku; }));
-        if (this.preInclude.find(function (x) { return x.sku == product.sku; }) != undefined) {
-            this.unselectProduct(product);
+        // if(selectedProds.find( x => x.sku == product.sku )!= undefined) {
+        if (product.status) {
+            this.unselectProduct(product, selectedProds);
         }
         else {
-            this.selectProduct(product);
+            this.selectProduct(product, source, selectedProds);
         }
-        return status;
     };
-    IpTemplateComponent.prototype.moveSelected = function (arrayType) {
-        var _this = this;
-        if (arrayType == 'firstArr') {
-            this.include = this.include.concat(this.preInclude);
+    IpTemplateComponent.prototype.moveSelected = function (isDB, selectedProds) {
+        if (isDB) {
+            this.include = this.include.concat(selectedProds);
             this.include.forEach(function (element) {
                 element.status = false;
             });
-            this.db = this.db.filter(function (x) { return _this.preInclude.indexOf(x) < 0; });
-            this.preInclude = [];
+            this.dbTemp = this.dbTemp.filter(function (x) { return selectedProds.indexOf(x) < 0; });
+            this.preIncludeDB = [];
+        }
+        else {
+            this.dbTemp = this.dbTemp.concat(selectedProds);
+            this.dbTemp.forEach(function (x) { return x.status = false; });
+            this.include = this.include.filter(function (x) { return selectedProds.indexOf(x) < 0; });
         }
     };
     __decorate([

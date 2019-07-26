@@ -12,57 +12,83 @@ export class IpTemplateComponent implements OnInit {
   @Input() includeArr:any[];
   @Input() typeArr:string;
 
-  db;
-  preInclude;
+
+  dbTemp;
+  preIncludeDB;
+  preIncludeIncl;
   include;
 
+
   ngOnInit() {
-    this.db = db;
-    for (let i in this.db) {
-      this.db[i].status = false;
-    }
-    this.preInclude=[];
+    this.dbTemp=[];
+    this.dbTemp  = this.geDBData(db);
+
+
+    console.log(db[1]);
+
+    this.preIncludeDB=[];
+    this.preIncludeIncl=[];
     this.include = [];
   }
 
+  geDBData(db):any[] {
+    let newDB=[];
+    for (let i in db) {
+      newDB[i] = Object.assign({}, db[i]);
+      newDB[i].status = false;
+    }
+    return newDB;
+  }
 
-  selectProduct(product:any) {
+  selectProduct(product:any, source:any[], selectedProds:any[]) {
+      let temp = source.find( x => x.sku == product.sku );
 
-      let temp = this.db.find( x => x.sku == product.sku );
-
-      this.preInclude.push(temp);
+      if(selectedProds.find( x => x.sku == product.sku ) != temp)selectedProds.push(temp);
       product.status = true;
-      console.log(this.preInclude);
-  }
-  unselectProduct(product:any) {
-    //let temp = this.preInclude.find( x => x.sku == product.sku );
-    this.preInclude = this.preInclude.filter(x => x.sku != product.sku );
-    product.status = false;
-    console.log(this.preInclude);
+
+      console.log("where is action, Billy?");
+      console.log(this.typeArr);
+      console.log(product);
+
   }
 
-  toggle(product:any) {
+  unselectProduct(product:any, selectedProds:any[]) {
+    selectedProds = selectedProds.filter(x => x.sku != product.sku );
+    product.status = false;
+
+    console.log("where is another action, Billy?");
+    console.log(this.typeArr);
+    console.log(product);
+
+  }
+
+  toggle(product:any, source:any[], selectedProds:any[]) {
     let status:boolean;
-    console.log(this.preInclude.find( x => x.sku == product.sku ));
-    if(this.preInclude.find( x => x.sku == product.sku )!= undefined) {
-      this.unselectProduct(product);
+
+   // if(selectedProds.find( x => x.sku == product.sku )!= undefined) {
+    if(product.status) {
+      this.unselectProduct(product, selectedProds);
 
     } else {
-      this.selectProduct(product);
-
+      this.selectProduct(product, source, selectedProds);
     }
-    return status;
+
   }
 
-  moveSelected(arrayType:string) {
-    if(arrayType == 'firstArr') {
-      this.include = this.include.concat(this.preInclude);
+  moveSelected(isDB:boolean, selectedProds:any[]) {
+    if(isDB) {
+      this.include = this.include.concat(selectedProds);
       this.include.forEach(function(element){
         element.status = false;
       });
-      this.db = this.db.filter( x => this.preInclude.indexOf(x) < 0 );
+      this.dbTemp = this.dbTemp.filter( x => selectedProds.indexOf(x) < 0 );
 
-      this.preInclude=[];
+      this.preIncludeDB=[];
+    }
+    else {
+      this.dbTemp = this.dbTemp.concat(selectedProds);
+      this.dbTemp.forEach(x=>x.status =false);
+      this.include = this.include.filter( x => selectedProds.indexOf(x) < 0 );
 
     }
 
