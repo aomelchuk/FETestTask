@@ -9,21 +9,34 @@ var core_1 = require('@angular/core');
 var db_1 = require('../shared/db');
 var IpTemplateComponent = (function () {
     function IpTemplateComponent() {
+        this.changeSelectedProductsEvent = new core_1.EventEmitter();
     }
+    IpTemplateComponent.prototype.ngOnChanges = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        console.log('changing', args);
+    };
     IpTemplateComponent.prototype.ngOnInit = function () {
         this.dbTemp = [];
         this.dbTemp = this.geDBData(db_1.db);
-        console.log(db_1.db[1]);
         this.preIncludeDB = [];
         this.preIncludeIncl = [];
         this.include = [];
     };
     IpTemplateComponent.prototype.geDBData = function (db) {
+        var _this = this;
         var newDB = [];
         for (var i in db) {
             newDB[i] = Object.assign({}, db[i]);
             newDB[i].status = false;
         }
+        console.log(this.includeArr);
+        if (this.includeArr['include'] != [] || this.includeArr['include'] != undefined)
+            newDB = newDB.filter(function (x) { return _this.includeArr['include'].indexOf(x) < 0; });
+        if (this.includeArr['pass'] != [] || this.includeArr['pass'] != undefined)
+            newDB = newDB.filter(function (x) { return _this.includeArr['pass'].indexOf(x) < 0; });
         return newDB;
     };
     IpTemplateComponent.prototype.selectProduct = function (product, source, selectedProds) {
@@ -31,16 +44,10 @@ var IpTemplateComponent = (function () {
         if (selectedProds.find(function (x) { return x.sku == product.sku; }) != temp)
             selectedProds.push(temp);
         product.status = true;
-        console.log("where is action, Billy?");
-        console.log(this.typeArr);
-        console.log(product);
     };
     IpTemplateComponent.prototype.unselectProduct = function (product, selectedProds) {
         selectedProds = selectedProds.filter(function (x) { return x.sku != product.sku; });
         product.status = false;
-        console.log("where is another action, Billy?");
-        console.log(this.typeArr);
-        console.log(product);
     };
     IpTemplateComponent.prototype.toggle = function (product, source, selectedProds) {
         var status;
@@ -53,6 +60,7 @@ var IpTemplateComponent = (function () {
         }
     };
     IpTemplateComponent.prototype.moveSelected = function (isDB, selectedProds) {
+        var _this = this;
         if (isDB) {
             this.include = this.include.concat(selectedProds);
             this.include.forEach(function (element) {
@@ -66,6 +74,17 @@ var IpTemplateComponent = (function () {
             this.dbTemp.forEach(function (x) { return x.status = false; });
             this.include = this.include.filter(function (x) { return selectedProds.indexOf(x) < 0; });
         }
+        if (this.includeArr['include'] != null || this.includeArr['include'] != undefined) {
+            this.includeArr['include'].push(this.include);
+            this.dbTemp = this.dbTemp.filter(function (x) { return _this.includeArr['include'].indexOf(x) < 0; });
+        }
+        if (this.includeArr['pass'] != null || this.includeArr['pass'] != undefined) {
+            this.includeArr['pass'].push(this.include);
+            this.dbTemp = this.dbTemp.filter(function (x) { return _this.includeArr['pass'].indexOf(x) < 0; });
+        }
+        console.log(this.typeArr);
+        console.log(this.includeArr);
+        this.changeSelectedProductsEvent.emit(this.include);
     };
     __decorate([
         core_1.Input()
@@ -73,11 +92,15 @@ var IpTemplateComponent = (function () {
     __decorate([
         core_1.Input()
     ], IpTemplateComponent.prototype, "typeArr");
+    __decorate([
+        core_1.Output()
+    ], IpTemplateComponent.prototype, "changeSelectedProductsEvent");
     IpTemplateComponent = __decorate([
         core_1.Component({
             selector: 'ip-template',
             templateUrl: './ip-template.component.html',
-            styleUrls: ['./ip-template.component.scss']
+            styleUrls: ['./ip-template.component.scss'],
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
         })
     ], IpTemplateComponent);
     return IpTemplateComponent;

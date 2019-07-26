@@ -29,7 +29,7 @@ var AddProductPopupComponent = (function () {
         };
         this.includeObj = {
             pass: [],
-            inlude: []
+            include: []
         };
         // customize default values of modals used by this component tree
         config.backdrop = 'static';
@@ -47,6 +47,9 @@ var AddProductPopupComponent = (function () {
     AddProductPopupComponent.prototype.ngOnInit = function () {
         this.db = db_1.db;
     };
+    AddProductPopupComponent.prototype.changeSelectedProd = function (res, type) {
+        this.includeObj[type] = res;
+    };
     AddProductPopupComponent = __decorate([
         core_1.Component({
             selector: 'add-product-popup',
@@ -58,10 +61,11 @@ var AddProductPopupComponent = (function () {
     return AddProductPopupComponent;
 }());
 exports.AddProductPopupComponent = AddProductPopupComponent;
-var NewProduct = (function () {
-    function NewProduct() {
-    }
-    return NewProduct;
-}());
-exports.NewProduct = NewProduct;
+/*
+export class NewProduct {
+  constructor() {
+
+  }
+}
+*/
 //# sourceMappingURL=add-product-popup.component.js.map

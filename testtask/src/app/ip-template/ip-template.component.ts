@@ -1,16 +1,21 @@
-import { Input,Component, OnInit } from '@angular/core';
+import { Input, Output, Component, OnInit, EventEmitter, OnChanges, ChangeDetectionStrategy  } from '@angular/core';
+
 
 import {db} from '../shared/db';
 
 @Component({
   selector: 'ip-template',
   templateUrl: './ip-template.component.html',
-  styleUrls: ['./ip-template.component.scss']
+  styleUrls: ['./ip-template.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IpTemplateComponent implements OnInit {
 
   @Input() includeArr:any[];
+
   @Input() typeArr:string;
+
+  @Output() changeSelectedProductsEvent = new EventEmitter<any>();
 
 
   dbTemp;
@@ -18,13 +23,12 @@ export class IpTemplateComponent implements OnInit {
   preIncludeIncl;
   include;
 
-
+  ngOnChanges(...args: any[]) {
+    console.log('changing', args);
+  }
   ngOnInit() {
     this.dbTemp=[];
     this.dbTemp  = this.geDBData(db);
-
-
-    console.log(db[1]);
 
     this.preIncludeDB=[];
     this.preIncludeIncl=[];
@@ -37,6 +41,10 @@ export class IpTemplateComponent implements OnInit {
       newDB[i] = Object.assign({}, db[i]);
       newDB[i].status = false;
     }
+    console.log(this.includeArr);
+    if(this.includeArr['include'] !=[] || this.includeArr['include'] != undefined) newDB = newDB.filter(x =>  this.includeArr['include'].indexOf(x) < 0 );
+    if(this.includeArr['pass'] !=[] || this.includeArr['pass'] != undefined) newDB = newDB.filter(x =>   this.includeArr['pass'].indexOf(x) < 0 );
+
     return newDB;
   }
 
@@ -46,9 +54,7 @@ export class IpTemplateComponent implements OnInit {
       if(selectedProds.find( x => x.sku == product.sku ) != temp)selectedProds.push(temp);
       product.status = true;
 
-      console.log("where is action, Billy?");
-      console.log(this.typeArr);
-      console.log(product);
+
 
   }
 
@@ -56,9 +62,6 @@ export class IpTemplateComponent implements OnInit {
     selectedProds = selectedProds.filter(x => x.sku != product.sku );
     product.status = false;
 
-    console.log("where is another action, Billy?");
-    console.log(this.typeArr);
-    console.log(product);
 
   }
 
@@ -91,6 +94,22 @@ export class IpTemplateComponent implements OnInit {
       this.include = this.include.filter( x => selectedProds.indexOf(x) < 0 );
 
     }
+
+
+      if(this.includeArr['include'] != null || this.includeArr['include'] != undefined) {
+        this.includeArr['include'].push(this.include);
+        this.dbTemp = this.dbTemp.filter(x => this.includeArr['include'].indexOf(x) < 0);
+      }
+    if(this.includeArr['pass'] != null || this.includeArr['pass'] != undefined) {
+      this.includeArr['pass'].push(this.include);
+      this.dbTemp = this.dbTemp.filter(x => this.includeArr['pass'].indexOf(x) < 0);
+    }
+
+    console.log(this.typeArr);
+    console.log(this.includeArr);
+
+
+    this.changeSelectedProductsEvent.emit(this.include);
 
   }
 

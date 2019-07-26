@@ -48,19 +48,26 @@ export class AddProductPopupComponent implements OnInit {
   };
   includeObj= {
     pass: [],
-    inlude:[]
+    include:[]
   }  ;
 
   ngOnInit() {
     this.db = db;
   }
 
+  changeSelectedProd(res, type) {
+
+    this.includeObj[type] = res;
+  
+  }
+
 
 }
+/*
 export class NewProduct {
   constructor() {
 
   }
 }
-
+*/
 

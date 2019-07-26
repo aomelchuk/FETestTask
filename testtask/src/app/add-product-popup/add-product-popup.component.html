@@ -68,11 +68,11 @@
           <div class="row">
             <div class="col-md-12 ">
               <!-- include types lists -->
-              <ip-template [includeArr]="includeObj.include" [typeArr]="'include'"></ip-template>
+              <ip-template [includeArr]="includeObj" [typeArr]="'include'" (changeSelectedProductsEvent) = "changeSelectedProd($event, 'include')" ></ip-template>
               <!-- end include types lists -->
 
               <!-- pass types lists -->
-              <ip-template [includeArr]="includeObj.pass" [typeArr]="'pass'"></ip-template>
+              <ip-template [includeArr]="includeObj" [typeArr]="'pass'" (changeSelectedProductsEvent) = "changeSelectedProd($event, 'pass')"></ip-template>
               <!-- end pass types lists -->
 
             </div>
