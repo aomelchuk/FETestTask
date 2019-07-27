@@ -15,27 +15,16 @@ var IpTemplateComponent = (function () {
         this.dbTemp = [];
         this.dbTemp = this.geDBData(db_1.db);
         this.subscription = this.updateIncludesService.getObject().subscribe(function (includeObj) {
-            //   console.log('this.typeArr +',this.typeArr);
             _this.includeArr = includeObj;
-            console.log("includeObj");
-            console.log(includeObj);
-            if (_this.typeArr == 'include') {
-                for (var ii in _this.dbTemp) {
-                    for (var iy in includeObj['pass']) {
-                        if (_this.dbTemp[ii].id == includeObj['pass'][iy].id) {
-                            _this.dbTemp.splice(_this.dbTemp.indexOf(_this.dbTemp[ii]), 1);
-                        }
-                    }
-                }
-            }
-            if (_this.typeArr == 'pass') {
-                for (var ii in _this.dbTemp) {
-                    for (var iy in includeObj['include']) {
-                        if (_this.dbTemp[ii].id == includeObj['include'][iy].id) {
-                            _this.dbTemp.splice(_this.dbTemp.indexOf(_this.dbTemp[ii]), 1);
-                        }
-                    }
-                }
+            switch (_this.typeArr) {
+                case 'include':
+                    _this.dbTemp.splice(_this.updateDBList('pass', includeObj), 1);
+                    break;
+                case 'pass':
+                    _this.dbTemp.splice(_this.updateDBList('include', includeObj), 1);
+                    break;
+                default:
+                    console.log("Exception: do not have typeArr");
             }
         });
     }
@@ -52,6 +41,15 @@ var IpTemplateComponent = (function () {
         }
         return newDB;
     };
+    IpTemplateComponent.prototype.updateDBList = function (typeStr, includeObj) {
+        for (var ii in this.dbTemp) {
+            for (var iy in includeObj[typeStr]) {
+                if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
+                    return this.dbTemp.indexOf(this.dbTemp[ii]);
+                }
+            }
+        }
+    };
     IpTemplateComponent.prototype.selectProduct = function (product, source, selectedProds) {
         var temp = source.find(function (x) { return x.sku == product.sku; });
         product.status = true;
@@ -60,16 +58,12 @@ var IpTemplateComponent = (function () {
     };
     IpTemplateComponent.prototype.unselectProduct = function (product, selectedProds) {
         product.status = false;
-        // console.log(selectedProds.filter(x => x.sku != product.sku ));
         return selectedProds.filter(function (x) { return x.sku != product.sku; });
     };
     IpTemplateComponent.prototype.toggle = function (product, source, selectedProds) {
         var status;
         if (product.status) {
             selectedProds = this.unselectProduct(product, selectedProds);
-            console.log(selectedProds);
-            console.log(this.preIncludeDB);
-            console.log(this.preIncludeIncl);
         }
         else {
             this.selectProduct(product, source, selectedProds);

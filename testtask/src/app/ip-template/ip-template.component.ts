@@ -30,53 +30,27 @@ export class IpTemplateComponent implements OnInit {
     this.dbTemp=[];
     this.dbTemp  = this.geDBData(db);
 
+
     this.subscription = this.updateIncludesService.getObject().subscribe(includeObj => {
-
-   //   console.log('this.typeArr +',this.typeArr);
-
 
 
       this.includeArr = includeObj;
 
-      console.log("includeObj");
-      console.log(includeObj)
+      switch(this.typeArr) {
+        case 'include':
+          this.dbTemp.splice(this.updateDBList('pass', includeObj),1);
+          break;
 
-      if (this.typeArr == 'include') {
-
-
-        for (let ii in this.dbTemp) {
-          for (let iy in includeObj['pass']) {
-           
-            if (this.dbTemp[ii].id == includeObj['pass'][iy].id) {
-              this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]), 1);
-             
-            }
-
-          }
-        }
-
+        case 'pass':
+          this.dbTemp.splice(this.updateDBList('include', includeObj), 1);
+          break;
+        default:
+          console.log("Exception: do not have typeArr");
       }
-      if (this.typeArr == 'pass') {
-
-        for (let ii in this.dbTemp ) {
-          for (let iy in includeObj['include']) {
-          
-              if(this.dbTemp[ii].id == includeObj['include'][iy].id) {
-                this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]), 1);
-               
-              }
-
-          }
-        }
 
 
-      }
 
       });
-
-
-
-
   }
 
 
@@ -97,6 +71,15 @@ export class IpTemplateComponent implements OnInit {
 
     return newDB;
   }
+  updateDBList(typeStr:string, includeObj) {
+    for (let ii in this.dbTemp) {
+      for (let iy in includeObj[typeStr]) {
+        if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
+          return this.dbTemp.indexOf(this.dbTemp[ii]);
+        }
+      }
+    }
+  }
 
   selectProduct(product:any, source:any[], selectedProds:any[]) {
       let temp = source.find( x => x.sku == product.sku );
@@ -106,7 +89,6 @@ export class IpTemplateComponent implements OnInit {
 
   unselectProduct(product:any, selectedProds:any[]) {
     product.status = false;
-   // console.log(selectedProds.filter(x => x.sku != product.sku ));
     return selectedProds.filter(x => x.sku != product.sku );
   }
 
@@ -115,9 +97,6 @@ export class IpTemplateComponent implements OnInit {
 
     if(product.status) {
       selectedProds =  this.unselectProduct(product, selectedProds);
-      console.log(selectedProds);
-      console.log(this.preIncludeDB);
-      console.log( this.preIncludeIncl);
 
     } else {
       this.selectProduct(product, source, selectedProds);
@@ -139,7 +118,6 @@ export class IpTemplateComponent implements OnInit {
       this.dbTemp = this.dbTemp.concat(selectedProds);
       this.dbTemp.forEach(x=>x.status =false);
       this.include = this.include.filter( x => selectedProds.indexOf(x) < 0 );
-
     }
 
 
