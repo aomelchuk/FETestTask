@@ -9,8 +9,9 @@ var core_1 = require('@angular/core');
 var db_1 = require('../shared/db');
 var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var AddProductPopupComponent = (function () {
-    function AddProductPopupComponent(config, modalService) {
+    function AddProductPopupComponent(config, modalService, updateIncludesService) {
         this.modalService = modalService;
+        this.updateIncludesService = updateIncludesService;
         this.newProduct = {
             id: 1,
             sku: "",
@@ -47,8 +48,11 @@ var AddProductPopupComponent = (function () {
     AddProductPopupComponent.prototype.ngOnInit = function () {
         this.db = db_1.db;
     };
-    AddProductPopupComponent.prototype.changeSelectedProd = function (res, type) {
-        this.includeObj[type] = res;
+    AddProductPopupComponent.prototype.changeSelectedProd = function (res) {
+        console.log(res.typeArr, res.include);
+        this.includeObj[res.typeArr] = res.include;
+        console.log(this.includeObj);
+        this.updateIncludesService.sendObject(this.includeObj);
     };
     AddProductPopupComponent = __decorate([
         core_1.Component({

@@ -10,7 +10,7 @@
       <div class="types-list-wrapper">
         <div class="list-group">
           <button  class="list-group-item list-group-item-action type-list-item"
-             (click)="toggle(product, dbTemp, preIncludeDB)"
+             (click)="preIncludeDB = toggle(product, dbTemp, preIncludeDB)"
              *ngFor="let product of dbTemp | listFilter:filtertagsleft"
              [ngClass]="{active:product.status}">
             {{product.name}} ({{product.sku}})
@@ -27,7 +27,7 @@
       <button type="button" class="btn btn-light w-50"> << </button>
       <div class="types-list-wrapper">
         <button class="list-group-item list-group-item-action type-list-item"
-           (click)="toggle(product, include, preIncludeIncl)"
+           (click)="preIncludeIncl = toggle(product, include, preIncludeIncl)"
            *ngFor="let product of include | listFilter:filtertagsright"
            [ngClass]="{active:product.status}">
           {{product.name}} ({{product.sku}})

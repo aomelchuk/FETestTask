@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm} from '@angular/forms';
 
 import {db} from '../shared/db';
+import {UpdateIncludesService} from '../shared/update-includes.service';
 
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -13,7 +14,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddProductPopupComponent implements OnInit {
 
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(config: NgbModalConfig, private modalService: NgbModal, private updateIncludesService:UpdateIncludesService) {
     // customize default values of modals used by this component tree
     config.backdrop = 'static';
     config.keyboard = false;
@@ -55,10 +56,14 @@ export class AddProductPopupComponent implements OnInit {
     this.db = db;
   }
 
-  changeSelectedProd(res, type) {
+  changeSelectedProd(res) {
 
-    this.includeObj[type] = res;
-  
+    console.log(res.typeArr, res.include);
+
+    this.includeObj[res.typeArr] = res.include;
+    console.log(this.includeObj);
+    this.updateIncludesService.sendObject(this.includeObj);
+
   }
 
 

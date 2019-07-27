@@ -14,6 +14,7 @@ import { FormsModule }   from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ListFilterPipe } from './shared/list-filter.pipe';
+import { UpdateIncludesService } from './shared/update-includes.service';
 import { ProductListComponent } from './product-list/product-list.component';
 import { AddProductPopupComponent } from './add-product-popup/add-product-popup.component';
 
@@ -39,7 +40,8 @@ import { IpTemplateComponent } from './ip-template/ip-template.component';
   ],
   providers: [
     NgbModalConfig,
-    NgbModal
+    NgbModal,
+    UpdateIncludesService
   ],
   bootstrap: [AppComponent]
 })

@@ -8,64 +8,71 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require('@angular/core');
 var db_1 = require('../shared/db');
 var IpTemplateComponent = (function () {
-    function IpTemplateComponent() {
+    function IpTemplateComponent(updateIncludesService) {
+        var _this = this;
+        this.updateIncludesService = updateIncludesService;
         this.changeSelectedProductsEvent = new core_1.EventEmitter();
-    }
-    IpTemplateComponent.prototype.ngOnChanges = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
-        }
-        console.log('changing', args);
-    };
-    IpTemplateComponent.prototype.ngOnInit = function () {
         this.dbTemp = [];
         this.dbTemp = this.geDBData(db_1.db);
+        this.subscription = this.updateIncludesService.getObject().subscribe(function (includeObj) {
+            console.log('this.typeArr +', _this.typeArr);
+            _this.includeArr = includeObj;
+            if (_this.typeArr == 'include') {
+            }
+            if (_this.typeArr == 'pass') {
+                for (var ii in _this.dbTemp) {
+                    for (var iy in includeObj['include']) {
+                        console.log('this.dbTemp[ii].id + ', _this.dbTemp[ii].id);
+                        console.log('includeObj[include][iy.id]', includeObj['include'][iy].id);
+                        if (_this.dbTemp[ii].id == includeObj['include'][iy].id)
+                            console.log(_this.dbTemp[ii].id);
+                    }
+                }
+            }
+        });
+    }
+    IpTemplateComponent.prototype.ngOnInit = function () {
         this.preIncludeDB = [];
         this.preIncludeIncl = [];
         this.include = [];
     };
     IpTemplateComponent.prototype.geDBData = function (db) {
-        var _this = this;
         var newDB = [];
         for (var i in db) {
             newDB[i] = Object.assign({}, db[i]);
             newDB[i].status = false;
         }
-        console.log(this.includeArr);
-        if (this.includeArr['include'] != [] || this.includeArr['include'] != undefined)
-            newDB = newDB.filter(function (x) { return _this.includeArr['include'].indexOf(x) < 0; });
-        if (this.includeArr['pass'] != [] || this.includeArr['pass'] != undefined)
-            newDB = newDB.filter(function (x) { return _this.includeArr['pass'].indexOf(x) < 0; });
         return newDB;
     };
     IpTemplateComponent.prototype.selectProduct = function (product, source, selectedProds) {
         var temp = source.find(function (x) { return x.sku == product.sku; });
-        if (selectedProds.find(function (x) { return x.sku == product.sku; }) != temp)
-            selectedProds.push(temp);
         product.status = true;
+        if (selectedProds.find(function (x) { return x.sku == product.sku; }) != temp && product.status == true)
+            selectedProds.push(temp);
     };
     IpTemplateComponent.prototype.unselectProduct = function (product, selectedProds) {
-        selectedProds = selectedProds.filter(function (x) { return x.sku != product.sku; });
         product.status = false;
+        // console.log(selectedProds.filter(x => x.sku != product.sku ));
+        return selectedProds.filter(function (x) { return x.sku != product.sku; });
     };
     IpTemplateComponent.prototype.toggle = function (product, source, selectedProds) {
         var status;
-        // if(selectedProds.find( x => x.sku == product.sku )!= undefined) {
         if (product.status) {
-            this.unselectProduct(product, selectedProds);
+            selectedProds = this.unselectProduct(product, selectedProds);
+            console.log(selectedProds);
+            console.log(this.preIncludeDB);
+            console.log(this.preIncludeIncl);
         }
         else {
             this.selectProduct(product, source, selectedProds);
+            return selectedProds;
         }
+        return selectedProds;
     };
     IpTemplateComponent.prototype.moveSelected = function (isDB, selectedProds) {
-        var _this = this;
         if (isDB) {
             this.include = this.include.concat(selectedProds);
-            this.include.forEach(function (element) {
-                element.status = false;
-            });
+            this.include.forEach(function (x) { return x.status = false; });
             this.dbTemp = this.dbTemp.filter(function (x) { return selectedProds.indexOf(x) < 0; });
             this.preIncludeDB = [];
         }
@@ -74,17 +81,7 @@ var IpTemplateComponent = (function () {
             this.dbTemp.forEach(function (x) { return x.status = false; });
             this.include = this.include.filter(function (x) { return selectedProds.indexOf(x) < 0; });
         }
-        if (this.includeArr['include'] != null || this.includeArr['include'] != undefined) {
-            this.includeArr['include'].push(this.include);
-            this.dbTemp = this.dbTemp.filter(function (x) { return _this.includeArr['include'].indexOf(x) < 0; });
-        }
-        if (this.includeArr['pass'] != null || this.includeArr['pass'] != undefined) {
-            this.includeArr['pass'].push(this.include);
-            this.dbTemp = this.dbTemp.filter(function (x) { return _this.includeArr['pass'].indexOf(x) < 0; });
-        }
-        console.log(this.typeArr);
-        console.log(this.includeArr);
-        this.changeSelectedProductsEvent.emit(this.include);
+        this.changeSelectedProductsEvent.emit({ include: this.include, typeArr: this.typeArr });
     };
     __decorate([
         core_1.Input()
@@ -99,8 +96,7 @@ var IpTemplateComponent = (function () {
         core_1.Component({
             selector: 'ip-template',
             templateUrl: './ip-template.component.html',
-            styleUrls: ['./ip-template.component.scss'],
-            changeDetection: core_1.ChangeDetectionStrategy.OnPush
+            styleUrls: ['./ip-template.component.scss']
         })
     ], IpTemplateComponent);
     return IpTemplateComponent;
