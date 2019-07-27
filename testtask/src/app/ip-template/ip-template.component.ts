@@ -32,23 +32,39 @@ export class IpTemplateComponent implements OnInit {
 
     this.subscription = this.updateIncludesService.getObject().subscribe(includeObj => {
 
-      console.log('this.typeArr +',this.typeArr);
+   //   console.log('this.typeArr +',this.typeArr);
 
 
 
       this.includeArr = includeObj;
 
+      console.log("includeObj");
+      console.log(includeObj)
+
       if (this.typeArr == 'include') {
 
-        //this.dbTemp = this.dbTemp.filter(x => includeObj['pass'].indexOf(x)<0);
+
+        for (let ii in this.dbTemp) {
+          for (let iy in includeObj['pass']) {
+           
+            if (this.dbTemp[ii].id == includeObj['pass'][iy].id) {
+              this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]), 1);
+             
+            }
+
+          }
+        }
+
       }
       if (this.typeArr == 'pass') {
 
         for (let ii in this.dbTemp ) {
           for (let iy in includeObj['include']) {
-            console.log('this.dbTemp[ii].id + ', this.dbTemp[ii].id);
-            console.log('includeObj[include][iy.id]', includeObj['include'][iy].id);
-              if(this.dbTemp[ii].id == includeObj['include'][iy].id) console.log(this.dbTemp[ii].id);
+          
+              if(this.dbTemp[ii].id == includeObj['include'][iy].id) {
+                this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]), 1);
+               
+              }
 
           }
         }

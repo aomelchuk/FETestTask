@@ -15,17 +15,25 @@ var IpTemplateComponent = (function () {
         this.dbTemp = [];
         this.dbTemp = this.geDBData(db_1.db);
         this.subscription = this.updateIncludesService.getObject().subscribe(function (includeObj) {
-            console.log('this.typeArr +', _this.typeArr);
+            //   console.log('this.typeArr +',this.typeArr);
             _this.includeArr = includeObj;
+            console.log("includeObj");
+            console.log(includeObj);
             if (_this.typeArr == 'include') {
+                for (var ii in _this.dbTemp) {
+                    for (var iy in includeObj['pass']) {
+                        if (_this.dbTemp[ii].id == includeObj['pass'][iy].id) {
+                            _this.dbTemp.splice(_this.dbTemp.indexOf(_this.dbTemp[ii]), 1);
+                        }
+                    }
+                }
             }
             if (_this.typeArr == 'pass') {
                 for (var ii in _this.dbTemp) {
                     for (var iy in includeObj['include']) {
-                        console.log('this.dbTemp[ii].id + ', _this.dbTemp[ii].id);
-                        console.log('includeObj[include][iy.id]', includeObj['include'][iy].id);
-                        if (_this.dbTemp[ii].id == includeObj['include'][iy].id)
-                            console.log(_this.dbTemp[ii].id);
+                        if (_this.dbTemp[ii].id == includeObj['include'][iy].id) {
+                            _this.dbTemp.splice(_this.dbTemp.indexOf(_this.dbTemp[ii]), 1);
+                        }
                     }
                 }
             }
