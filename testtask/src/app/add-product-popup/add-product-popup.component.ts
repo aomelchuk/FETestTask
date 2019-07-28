@@ -61,11 +61,22 @@ export class AddProductPopupComponent implements OnInit {
     console.log(res.typeArr, res.include);
 
     this.includeObj[res.typeArr] = res.include;
+    console.log("add product popup");
     console.log(this.includeObj);
     this.updateIncludesService.sendObject(this.includeObj);
 
   }
-
+ createNewProduct() {
+   let temp = new Object;
+   
+   
+   
+   
+   
+   console.log(temp);
+   
+ }
+  
 
 }
 /*

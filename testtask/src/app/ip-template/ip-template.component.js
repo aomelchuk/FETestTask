@@ -7,21 +7,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var db_1 = require('../shared/db');
+var list_filter_pipe_1 = require('../shared/list-filter.pipe');
 var IpTemplateComponent = (function () {
     function IpTemplateComponent(updateIncludesService) {
         var _this = this;
         this.updateIncludesService = updateIncludesService;
         this.changeSelectedProductsEvent = new core_1.EventEmitter();
-        this.dbTemp = [];
-        this.dbTemp = this.geDBData(db_1.db);
         this.subscription = this.updateIncludesService.getObject().subscribe(function (includeObj) {
-            _this.includeArr = includeObj;
+            console.log(_this.includeArr);
             switch (_this.typeArr) {
                 case 'include':
-                    _this.dbTemp.splice(_this.updateDBList('pass', includeObj), 1);
+                    _this.updateDBList('pass', includeObj);
                     break;
                 case 'pass':
-                    _this.dbTemp.splice(_this.updateDBList('include', includeObj), 1);
+                    _this.updateDBList('include', includeObj);
                     break;
                 default:
                     console.log("Exception: do not have typeArr");
@@ -29,6 +28,8 @@ var IpTemplateComponent = (function () {
         });
     }
     IpTemplateComponent.prototype.ngOnInit = function () {
+        this.dbTemp = [];
+        this.dbTemp = this.geDBData(db_1.db);
         this.preIncludeDB = [];
         this.preIncludeIncl = [];
         this.include = [];
@@ -42,13 +43,17 @@ var IpTemplateComponent = (function () {
         return newDB;
     };
     IpTemplateComponent.prototype.updateDBList = function (typeStr, includeObj) {
+        console.log("this.include");
+        console.log(this.include);
+        //if(includeObj[typeStr].lenght != 0) {
         for (var ii in this.dbTemp) {
             for (var iy in includeObj[typeStr]) {
                 if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
-                    return this.dbTemp.indexOf(this.dbTemp[ii]);
+                    this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]), 1);
                 }
             }
         }
+        console.log(this.includeArr);
     };
     IpTemplateComponent.prototype.selectProduct = function (product, source, selectedProds) {
         var temp = source.find(function (x) { return x.sku == product.sku; });
@@ -85,6 +90,13 @@ var IpTemplateComponent = (function () {
         }
         this.changeSelectedProductsEvent.emit({ include: this.include, typeArr: this.typeArr });
     };
+    IpTemplateComponent.prototype.moveAll = function (isDB, dbRes, filterStr) {
+        var temp = new list_filter_pipe_1.ListFilterPipe().transform(dbRes, filterStr);
+        this.moveSelected(isDB, temp);
+        this.filtertagsright = '';
+        this.filtertagsleft = '';
+    };
+    ;
     __decorate([
         core_1.Input()
     ], IpTemplateComponent.prototype, "includeArr");

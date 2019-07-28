@@ -14,9 +14,9 @@ var ListFilterPipe = (function () {
             return items;
         }
         return items.filter(function (item) {
-            var nameUpper = item.name.toUpperCase();
-            var skuUpper = item.sku.toUpperCase();
-            return (nameUpper.indexOf(filter.toUpperCase()) !== -1) || (skuUpper.indexOf(filter.toUpperCase()) !== -1);
+            var nameUpper = item.name;
+            var skuUpper = item.sku;
+            return (nameUpper.toUpperCase().indexOf(filter.toUpperCase()) !== -1) || (skuUpper.toUpperCase().indexOf(filter.toUpperCase()) !== -1);
         });
     };
     ListFilterPipe = __decorate([

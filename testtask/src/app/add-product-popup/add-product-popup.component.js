@@ -51,8 +51,13 @@ var AddProductPopupComponent = (function () {
     AddProductPopupComponent.prototype.changeSelectedProd = function (res) {
         console.log(res.typeArr, res.include);
         this.includeObj[res.typeArr] = res.include;
+        console.log("add product popup");
         console.log(this.includeObj);
         this.updateIncludesService.sendObject(this.includeObj);
+    };
+    AddProductPopupComponent.prototype.createNewProduct = function () {
+        var temp = new Object;
+        console.log(temp);
     };
     AddProductPopupComponent = __decorate([
         core_1.Component({

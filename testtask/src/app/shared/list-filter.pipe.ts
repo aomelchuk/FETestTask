@@ -12,9 +12,9 @@ export class ListFilterPipe implements PipeTransform {
 
 
     return items.filter(item => {
-      let nameUpper = item.name.toUpperCase();
-      let skuUpper = item.sku.toUpperCase();
-      return (nameUpper.indexOf(filter.toUpperCase()) !== -1) || (skuUpper.indexOf(filter.toUpperCase()) !== -1)
+      let nameUpper = item.name;
+      let skuUpper = item.sku;
+      return (nameUpper.toUpperCase().indexOf(filter.toUpperCase()) !== -1) || (skuUpper.toUpperCase().indexOf(filter.toUpperCase()) !== -1)
     });
   }
 
