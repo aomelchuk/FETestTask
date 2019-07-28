@@ -12,12 +12,6 @@ var AddProductPopupComponent = (function () {
     function AddProductPopupComponent(config, modalService, updateIncludesService) {
         this.modalService = modalService;
         this.updateIncludesService = updateIncludesService;
-        this.newProduct = {
-            id: 1,
-            sku: "",
-            name: "",
-            newProductAllowRecharge: false
-        };
         this.typeValues = {
             'BASIC_SINGLE': 'Basic single',
             'BASIC_VALID_HOURS': 'Basic valid hours',
@@ -49,15 +43,24 @@ var AddProductPopupComponent = (function () {
         this.db = db_1.db;
     };
     AddProductPopupComponent.prototype.changeSelectedProd = function (res) {
-        console.log(res.typeArr, res.include);
         this.includeObj[res.typeArr] = res.include;
-        console.log("add product popup");
-        console.log(this.includeObj);
         this.updateIncludesService.sendObject(this.includeObj);
     };
     AddProductPopupComponent.prototype.createNewProduct = function () {
-        var temp = new Object;
-        console.log(temp);
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        args.push(this.includeObj);
+        try {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([JSON.stringify(new NewProduct(args))], { type: "JSON" });
+            FileSaver.saveAs(blob, "new_product.json");
+        }
+        catch (ex) {
+            console.log(ex);
+        }
+        this.includeObj = null;
     };
     AddProductPopupComponent = __decorate([
         core_1.Component({
@@ -70,11 +73,34 @@ var AddProductPopupComponent = (function () {
     return AddProductPopupComponent;
 }());
 exports.AddProductPopupComponent = AddProductPopupComponent;
-/*
-export class NewProduct {
-  constructor() {
-
-  }
-}
-*/
+var NewProduct = (function () {
+    function NewProduct() {
+        this.customerType = args[0];
+        this.name = args[1];
+        this.validValue = args[2] || 0;
+        this.price = args[3];
+        this.sku = args[4];
+        this.type = args[5];
+        this.includes = this.processingIncludesArray(args[6]);
+    }
+    NewProduct.prototype.processingIncludesArray = function (includes) {
+        var temp = [];
+        for (var x in includes) {
+            if (includes[x].length != 0) {
+                for (var _i = 0, _a = includes[x]; _i < _a.length; _i++) {
+                    var item = _a[_i];
+                    temp.push({
+                        type: x.toUpperCase(),
+                        connectedProduct: {
+                            id: item.id
+                        }
+                    });
+                }
+            }
+        }
+        ;
+        return temp;
+    };
+    return NewProduct;
+}());
 //# sourceMappingURL=add-product-popup.component.js.map

@@ -14,7 +14,6 @@ var IpTemplateComponent = (function () {
         this.updateIncludesService = updateIncludesService;
         this.changeSelectedProductsEvent = new core_1.EventEmitter();
         this.subscription = this.updateIncludesService.getObject().subscribe(function (includeObj) {
-            console.log(_this.includeArr);
             switch (_this.typeArr) {
                 case 'include':
                     _this.updateDBList('pass', includeObj);
@@ -43,9 +42,6 @@ var IpTemplateComponent = (function () {
         return newDB;
     };
     IpTemplateComponent.prototype.updateDBList = function (typeStr, includeObj) {
-        console.log("this.include");
-        console.log(this.include);
-        //if(includeObj[typeStr].lenght != 0) {
         for (var ii in this.dbTemp) {
             for (var iy in includeObj[typeStr]) {
                 if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
@@ -53,7 +49,6 @@ var IpTemplateComponent = (function () {
                 }
             }
         }
-        console.log(this.includeArr);
     };
     IpTemplateComponent.prototype.selectProduct = function (product, source, selectedProds) {
         var temp = source.find(function (x) { return x.sku == product.sku; });

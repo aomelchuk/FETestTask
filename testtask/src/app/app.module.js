@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var platform_browser_1 = require('@angular/platform-browser');
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
-//import { HttpClientModule } from '@angular/common/http';
-//import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
-//import {InMemoryDataService} from './app/shared/data.service';
 var app_routing_module_1 = require('./app-routing.module');
 var app_component_1 = require('./app.component');
 var list_filter_pipe_1 = require('./shared/list-filter.pipe');

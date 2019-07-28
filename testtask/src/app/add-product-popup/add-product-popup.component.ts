@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm} from '@angular/forms';
+import { saveAs } from 'file-saver';
 
 import {db} from '../shared/db';
 import {UpdateIncludesService} from '../shared/update-includes.service';
@@ -29,12 +30,6 @@ export class AddProductPopupComponent implements OnInit {
    }
   };
 
-  newProduct = {
-    id: 1,
-    sku:"",
-    name:"",
-    newProductAllowRecharge:false
-  };
 
   db:any[];
   typeValues = {
@@ -57,33 +52,71 @@ export class AddProductPopupComponent implements OnInit {
   }
 
   changeSelectedProd(res) {
-
-    console.log(res.typeArr, res.include);
-
-    this.includeObj[res.typeArr] = res.include;
-    console.log("add product popup");
-    console.log(this.includeObj);
+    this.includeObj[res.typeArr] = res.include;  
     this.updateIncludesService.sendObject(this.includeObj);
-
   }
- createNewProduct() {
-   let temp = new Object;
+
+
+ createNewProduct(...args: any[]) {
+
+    args.push(this.includeObj);
    
-   
-   
-   
-   
-   console.log(temp);
-   
+   try {
+     var FileSaver = require('file-saver');
+     let blob = new Blob([JSON.stringify(new NewProduct(args))], {type: "JSON"});
+     FileSaver.saveAs(blob, "new_product.json");
+
+   }
+   catch (ex) {
+     console.log(ex);
+   }
+
+    this.includeObj = null;
+
  }
-  
+
 
 }
-/*
-export class NewProduct {
-  constructor() {
+
+class NewProduct {
+  customerType;
+  name;
+  validValue;
+  price;
+  sku;
+  type;
+  includes;
+
+ constructor(...[args]) {
+   this.customerType = args[0];
+    this.name = args[1];
+    this.validValue = args[2] || 0;
+    this.price = args[3];
+    this.sku = args[4];
+    this.type = args[5];
+
+    this.includes = this.processingIncludesArray(args[6]);
 
   }
+
+  processingIncludesArray(includes:any) {
+    let temp = [];
+
+    for (let x in includes) {
+      if (includes[x].length != 0) {
+        for (let item of includes[x]) {
+          temp.push({
+            type: x.toUpperCase(),
+            connectedProduct: {
+              id: item.id
+            }
+          });
+        }
+      }
+    };
+    return temp;
+  }
+
 }
-*/
+
 

@@ -2,7 +2,7 @@ import {Input, Output, Component, OnInit, EventEmitter} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {db} from '../shared/db';
-import  {ListFilterPipe} from '../shared/list-filter.pipe'
+import  {ListFilterPipe} from '../shared/list-filter.pipe';
 import {UpdateIncludesService} from '../shared/update-includes.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class IpTemplateComponent implements OnInit {
 
     this.subscription = this.updateIncludesService.getObject().subscribe(includeObj => {
 
-      console.log(this.includeArr);
+
 
       switch (this.typeArr) {
         case 'include':
@@ -70,12 +70,9 @@ export class IpTemplateComponent implements OnInit {
     return newDB;
   }
 
-  
-  
-  updateDBList(typeStr:string, includeObj) {
-    console.log("this.include");
-    console.log(this.include);
-  //if(includeObj[typeStr].lenght != 0) {
+
+
+  updateDBList(typeStr:string, includeObj) {  
     for (let ii in this.dbTemp) {
       for (let iy in includeObj[typeStr]) {
         if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
@@ -83,11 +80,6 @@ export class IpTemplateComponent implements OnInit {
         }
       }
     }
-
-    console.log(this.includeArr);
-
-
-
   }
 
   selectProduct(product:any, source:any[], selectedProds:any[]) {
