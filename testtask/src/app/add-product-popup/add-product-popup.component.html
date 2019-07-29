@@ -48,11 +48,11 @@
         </div>
           <div class="row">
             <div class="col-md-6 py-2">
-              <input class="form-control" type="text" id="newProductRechargePrice" placeholder="Recharge price" [disabled]="!addForm.value.newProductAllowRecharge"> <!-- change-->
+              <input class="form-control" type="text" name="newProductRechargePrice" ngModel placeholder="Recharge price" [disabled]="!addForm.value.newProductAllowRecharge"> <!-- change-->
             </div>
             <div class="col-md-6 py-2 mb-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" ngModel name="newProductAllowRecharge" id="newProductAllowRecharge" >
+                <input class="form-check-input" type="checkbox" value="false" ngModel name="newProductAllowRecharge" id="newProductAllowRecharge" >
                 <label class="form-check-label" for="newProductAllowRecharge">
                   Allow recharge
                 </label>
@@ -90,7 +90,7 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="createNewProduct(addForm.value.newProductCustomerType, addForm.value.newProductName, addForm.value.newProductValidValue, addForm.value.newProductPrice, addForm.value.newProductSku, addForm.value.newProductType); c('Save click')">Create</button>
+    <button type="button" class="btn btn-outline-dark" (click)="createNewProduct(addForm.value.newProductCustomerType, addForm.value.newProductName, addForm.value.newProductValidValue, addForm.value.newProductPrice, addForm.value.newProductSku, addForm.value.newProductType, addForm.value.newProductAllowRecharge, addForm.value.newProductRechargePrice); c('Save click')">Create</button>
   </div>
 </ng-template>
 

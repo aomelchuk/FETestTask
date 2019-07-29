@@ -55,10 +55,8 @@ var AddProductPopupComponent = (function () {
             args[_i - 0] = arguments[_i];
         }
         args.push(this.includeObj);
+        console.log(new NewProduct(args));
         try {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([JSON.stringify(new NewProduct(args))], { type: "JSON" });
-            FileSaver.saveAs(blob, "new_product.json");
         }
         catch (ex) {
             console.log(ex);
@@ -84,7 +82,15 @@ var NewProduct = (function () {
         this.price = args[3];
         this.sku = args[4];
         this.type = args[5];
-        this.includes = this.processingIncludesArray(args[6]);
+        if (args[6] == "")
+            this.allowRecharge = false;
+        else
+            this.allowRecharge = args[6];
+        if (args[6] == true)
+            this.rechargePrice = args[7];
+        else
+            this.rechargePrice = 0;
+        this.includes = this.processingIncludesArray(args[8]);
     }
     NewProduct.prototype.processingIncludesArray = function (includes) {
         var temp = [];

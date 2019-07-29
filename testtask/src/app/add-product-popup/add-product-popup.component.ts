@@ -22,7 +22,7 @@ export class AddProductPopupComponent implements OnInit {
     this.getDbService.get().subscribe(data=>{
       this.db = data;
     });
-    
+
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -66,11 +66,11 @@ export class AddProductPopupComponent implements OnInit {
  createNewProduct(...args: any[]) {
 
     args.push(this.includeObj);
-
+console.log(new NewProduct(args));
    try {
-     var FileSaver = require('file-saver');
-     let blob = new Blob([JSON.stringify(new NewProduct(args))], {type: "JSON"});
-     FileSaver.saveAs(blob, "new_product.json");
+    // var FileSaver = require('file-saver');
+   //  let blob = new Blob([JSON.stringify(new NewProduct(args))], {type: "JSON"});
+    // FileSaver.saveAs(blob, "new_product.json");
 
    }
    catch (ex) {
@@ -91,6 +91,8 @@ class NewProduct {
   price;
   sku;
   type;
+  allowRecharge;
+  rechargePrice;
   includes;
 
  constructor(...[args]) {
@@ -100,8 +102,12 @@ class NewProduct {
     this.price = args[3];
     this.sku = args[4];
     this.type = args[5];
+    if(args[6] == "")this.allowRecharge=false;
+    else  this.allowRecharge=args[6];
+     if(args[6]==true ) this.rechargePrice = args[7];
+     else this.rechargePrice =0;
 
-    this.includes = this.processingIncludesArray(args[6]);
+    this.includes = this.processingIncludesArray(args[8]);
 
   }
 
