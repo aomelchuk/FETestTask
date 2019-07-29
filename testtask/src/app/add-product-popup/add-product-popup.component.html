@@ -1,5 +1,5 @@
 <ng-template #content let-c="close" let-d="dismiss">
-  <form name="addForm"  #addForm="ngForm" novalidate  (ngSubmit)="addForm.form.valid && createNewProduct(newProductCustomerType.value, newProductName.value, addForm.value.newProductValidValue, addForm.value.newProductPrice, newProductSku.value, newProductType.value, addForm.value.newProductAllowRecharge, newProductRechargePrice.value); " ><!--c('Save click')-->
+  <form name="addForm"  #addForm="ngForm" novalidate  (ngSubmit)="addForm.form.valid && createNewProduct(newProductCustomerType.value, newProductName.value, newProductValidValue.value, newProductPrice.value, newProductSku.value, newProductType.value, newProductAllowRecharge.value, newProductRechargePrice.value); " ><!--c('Save click')-->
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Create new product</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -55,7 +55,7 @@
             </div>
             <div class="col-md-6 py-2 mb-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="false" ngModel name="newProductAllowRecharge" id="newProductAllowRecharge" >
+                <input class="form-check-input" type="checkbox" value="false" ngModel name="newProductAllowRecharge" id="newProductAllowRecharge" #newProductAllowRecharge="ngModel">
                 <label class="form-check-label" for="newProductAllowRecharge">
                   Allow recharge
                 </label>
@@ -95,7 +95,7 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" type="submit" >Create</button> <!--[disabled]="addForm.pristine || addForm.invalid"  -->
+    <button  class="btn btn-outline-dark" type="submit" >Create</button> <!--[disabled]="addForm.pristine || addForm.invalid"  -->
   </div>
   </form>
 </ng-template>
