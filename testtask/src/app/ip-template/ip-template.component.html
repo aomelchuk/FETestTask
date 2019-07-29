@@ -5,7 +5,7 @@
     <div class="col-md-6">
       <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsleft" name="listFilterValue">
 
-      <button type="button" class="btn btn-light w-50" (click)="moveAll(true, dbTemp, filtertagsleft)"> >> </button>
+      <button type="button" class="btn btn-light w-50" (click)="moveAll(true, dbTemp)"> >> </button>
       <button type="button" class="btn btn-light w-50" (click)="moveSelected(true, preIncludeDB)"> > </button>
       <div class="types-list-wrapper">
         <div class="list-group">
@@ -24,7 +24,7 @@
       <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="filtertagsright" name="listFilterValue">
 
       <button type="button" class="btn btn-light w-50" (click)="moveSelected(false, preIncludeIncl)"> < </button>
-      <button type="button" class="btn btn-light w-50" (click)="moveAll(false, include, filtertagsright)"> << </button>
+      <button type="button" class="btn btn-light w-50" (click)="moveAll(false, include)"> << </button>
       <div class="types-list-wrapper">
         <button type="button" class="list-group-item list-group-item-action type-list-item"
            (click)="preIncludeIncl = toggle(product, include, preIncludeIncl)"

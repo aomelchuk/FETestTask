@@ -2,7 +2,6 @@ import {Input, Output, Component, OnInit, EventEmitter} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {GetDbService} from '../shared/get-db.service';
-import  {ListFilterPipe} from '../shared/list-filter.pipe';
 import {UpdateIncludesService} from '../shared/update-includes.service';
 
 @Component({
@@ -24,8 +23,7 @@ export class IpTemplateComponent implements OnInit {
   preIncludeDB;
   preIncludeIncl;
   include;
-  filtertagsright;
-  filtertagsleft;
+  includeBuff;
   subscription:Subscription;
 
 
@@ -33,21 +31,22 @@ export class IpTemplateComponent implements OnInit {
     this.dbTemp = [];
 
 
+
    this.getDbService.get().subscribe(data=>{
       this.dbTemp = this.geDBData(data);
     });
-    
-    this.subscription = this.updateIncludesService.getObject().subscribe(includeObj => {
 
+    this.subscription = this.updateIncludesService.getObject().subscribe(res => {
 
+      console.log(res)
 
       switch (this.typeArr) {
         case 'include':
-        this.updateDBList('pass', includeObj);
+        this.updateDBList('pass', res.includeObj, res.includeBuff);
           break;
 
         case 'pass':
-          this.updateDBList('include', includeObj);
+          this.updateDBList('include', res.includeObj, res.includeBuff);
           break;
         default:
           console.log("Exception: do not have typeArr");
@@ -58,8 +57,6 @@ export class IpTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     this.preIncludeDB = [];
     this.preIncludeIncl = [];
     this.include = [];
@@ -71,17 +68,26 @@ export class IpTemplateComponent implements OnInit {
       newDB[i] = Object.assign({}, db[i]);
       newDB[i].status = false;
     }
-
     return newDB;
   }
 
 
+  updateDBList(typeStr:string, includeObj, includeBuff) {
 
-  updateDBList(typeStr:string, includeObj) {
-    for (let ii in this.dbTemp) {
+    if (includeObj[typeStr].length != 0) {
       for (let iy in includeObj[typeStr]) {
-        if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
-          this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]),1);
+        for (let ii in this.dbTemp) {
+          if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
+            this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]), 1);
+          }
+        }
+      }
+    } else {
+
+      if (this.dbTemp.length == 0) this.dbTemp = this.geDBData(includeBuff);
+      else {
+        for (let iy in includeBuff) {
+          if (!this.dbTemp.find(x => x.id == includeBuff[iy].id)) this.dbTemp = this.dbTemp.concat(includeBuff[iy]);
         }
       }
     }
@@ -113,30 +119,27 @@ export class IpTemplateComponent implements OnInit {
   }
 
   moveSelected(isDB:boolean, selectedProds:any[]) {
+    this.includeBuff = this.include;
     if (isDB) {
       this.include = this.include.concat(selectedProds);
       this.include.forEach(x=>x.status = false);
       this.dbTemp = this.dbTemp.filter(x => selectedProds.indexOf(x) < 0);
-
       this.preIncludeDB = [];
     }
     else {
       this.dbTemp = this.dbTemp.concat(selectedProds);
       this.dbTemp.forEach(x=>x.status = false);
+      this.includeBuff = this.include;
       this.include = this.include.filter(x => selectedProds.indexOf(x) < 0);
     }
 
-    this.changeSelectedProductsEvent.emit({include: this.include, typeArr: this.typeArr});
+
+    this.changeSelectedProductsEvent.emit({include: this.include, typeArr: this.typeArr, includeBuff:this.includeBuff});
 
   }
 
-  moveAll(isDB:boolean, dbRes, filterStr) {
-    let temp = new ListFilterPipe().transform(dbRes, filterStr);
-    this.moveSelected(isDB, temp);
+  moveAll(isDB:boolean, dbRes) {
+    this.moveSelected(isDB, dbRes);
 
-    this.filtertagsright = '';
-    this.filtertagsleft = '';
   };
-
-
 }

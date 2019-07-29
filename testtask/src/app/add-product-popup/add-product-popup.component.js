@@ -45,9 +45,10 @@ var AddProductPopupComponent = (function () {
     ;
     AddProductPopupComponent.prototype.ngOnInit = function () {
     };
-    AddProductPopupComponent.prototype.changeSelectedProd = function (res) {
-        this.includeObj[res.typeArr] = res.include;
-        this.updateIncludesService.sendObject(this.includeObj);
+    AddProductPopupComponent.prototype.changeSelectedProd = function (res, typeArr) {
+        console.log(res);
+        this.includeObj[typeArr] = res.include;
+        this.updateIncludesService.sendObject({ includeObj: this.includeObj, includeBuff: res.includeBuff });
     };
     AddProductPopupComponent.prototype.createNewProduct = function () {
         var args = [];
@@ -55,8 +56,10 @@ var AddProductPopupComponent = (function () {
             args[_i - 0] = arguments[_i];
         }
         args.push(this.includeObj);
-        console.log(new NewProduct(args));
         try {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([JSON.stringify(new NewProduct(args))], { type: "JSON" });
+            FileSaver.saveAs(blob, "new_product.json");
         }
         catch (ex) {
             console.log(ex);

@@ -59,20 +59,21 @@ export class AddProductPopupComponent implements OnInit {
 
   }
 
-  changeSelectedProd(res) {
-    this.includeObj[res.typeArr] = res.include;
-    this.updateIncludesService.sendObject(this.includeObj);
+  changeSelectedProd(res, typeArr) {
+    console.log(res);
+    this.includeObj[typeArr] = res.include;
+    this.updateIncludesService.sendObject({includeObj:this.includeObj,includeBuff: res.includeBuff});
   }
 
 
  createNewProduct(...args: any[]) {
 
     args.push(this.includeObj);
-console.log(new NewProduct(args));
+
    try {
-    // var FileSaver = require('file-saver');
-   //  let blob = new Blob([JSON.stringify(new NewProduct(args))], {type: "JSON"});
-    // FileSaver.saveAs(blob, "new_product.json");
+     var FileSaver = require('file-saver');
+     let blob = new Blob([JSON.stringify(new NewProduct(args))], {type: "JSON"});
+     FileSaver.saveAs(blob, "new_product.json");
 
    }
    catch (ex) {

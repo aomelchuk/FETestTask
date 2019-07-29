@@ -6,7 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var list_filter_pipe_1 = require('../shared/list-filter.pipe');
 var IpTemplateComponent = (function () {
     function IpTemplateComponent(getDbService, updateIncludesService) {
         var _this = this;
@@ -17,13 +16,14 @@ var IpTemplateComponent = (function () {
         this.getDbService.get().subscribe(function (data) {
             _this.dbTemp = _this.geDBData(data);
         });
-        this.subscription = this.updateIncludesService.getObject().subscribe(function (includeObj) {
+        this.subscription = this.updateIncludesService.getObject().subscribe(function (res) {
+            console.log(res);
             switch (_this.typeArr) {
                 case 'include':
-                    _this.updateDBList('pass', includeObj);
+                    _this.updateDBList('pass', res.includeObj, res.includeBuff);
                     break;
                 case 'pass':
-                    _this.updateDBList('include', includeObj);
+                    _this.updateDBList('include', res.includeObj, res.includeBuff);
                     break;
                 default:
                     console.log("Exception: do not have typeArr");
@@ -43,11 +43,27 @@ var IpTemplateComponent = (function () {
         }
         return newDB;
     };
-    IpTemplateComponent.prototype.updateDBList = function (typeStr, includeObj) {
-        for (var ii in this.dbTemp) {
+    IpTemplateComponent.prototype.updateDBList = function (typeStr, includeObj, includeBuff) {
+        if (includeObj[typeStr].length != 0) {
             for (var iy in includeObj[typeStr]) {
-                if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
-                    this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]), 1);
+                for (var ii in this.dbTemp) {
+                    if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {
+                        this.dbTemp.splice(this.dbTemp.indexOf(this.dbTemp[ii]), 1);
+                    }
+                }
+            }
+        }
+        else {
+            if (this.dbTemp.length == 0)
+                this.dbTemp = this.geDBData(includeBuff);
+            else {
+                var _loop_1 = function(iy) {
+                    if (!this_1.dbTemp.find(function (x) { return x.id == includeBuff[iy].id; }))
+                        this_1.dbTemp = this_1.dbTemp.concat(includeBuff[iy]);
+                };
+                var this_1 = this;
+                for (var iy in includeBuff) {
+                    _loop_1(iy);
                 }
             }
         }
@@ -74,6 +90,7 @@ var IpTemplateComponent = (function () {
         return selectedProds;
     };
     IpTemplateComponent.prototype.moveSelected = function (isDB, selectedProds) {
+        this.includeBuff = this.include;
         if (isDB) {
             this.include = this.include.concat(selectedProds);
             this.include.forEach(function (x) { return x.status = false; });
@@ -83,15 +100,13 @@ var IpTemplateComponent = (function () {
         else {
             this.dbTemp = this.dbTemp.concat(selectedProds);
             this.dbTemp.forEach(function (x) { return x.status = false; });
+            this.includeBuff = this.include;
             this.include = this.include.filter(function (x) { return selectedProds.indexOf(x) < 0; });
         }
-        this.changeSelectedProductsEvent.emit({ include: this.include, typeArr: this.typeArr });
+        this.changeSelectedProductsEvent.emit({ include: this.include, typeArr: this.typeArr, includeBuff: this.includeBuff });
     };
-    IpTemplateComponent.prototype.moveAll = function (isDB, dbRes, filterStr) {
-        var temp = new list_filter_pipe_1.ListFilterPipe().transform(dbRes, filterStr);
-        this.moveSelected(isDB, temp);
-        this.filtertagsright = '';
-        this.filtertagsleft = '';
+    IpTemplateComponent.prototype.moveAll = function (isDB, dbRes) {
+        this.moveSelected(isDB, dbRes);
     };
     ;
     __decorate([
