@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm} from '@angular/forms';
 import { saveAs } from 'file-saver';
 
-import {db} from '../shared/db';
+
+
+import {GetDbService} from '../shared/get-db.service';
 import {UpdateIncludesService} from '../shared/update-includes.service';
 
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,8 +17,12 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddProductPopupComponent implements OnInit {
 
-  constructor(config: NgbModalConfig, private modalService: NgbModal, private updateIncludesService:UpdateIncludesService) {
+  constructor(private getDbService:GetDbService, config: NgbModalConfig, private modalService: NgbModal, private updateIncludesService:UpdateIncludesService) {
     // customize default values of modals used by this component tree
+    this.getDbService.get().subscribe(data=>{
+      this.db = data;
+    });
+    
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -48,11 +54,11 @@ export class AddProductPopupComponent implements OnInit {
   }  ;
 
   ngOnInit() {
-    this.db = db;
+
   }
 
   changeSelectedProd(res) {
-    this.includeObj[res.typeArr] = res.include;  
+    this.includeObj[res.typeArr] = res.include;
     this.updateIncludesService.sendObject(this.includeObj);
   }
 
@@ -60,7 +66,7 @@ export class AddProductPopupComponent implements OnInit {
  createNewProduct(...args: any[]) {
 
     args.push(this.includeObj);
-   
+
    try {
      var FileSaver = require('file-saver');
      let blob = new Blob([JSON.stringify(new NewProduct(args))], {type: "JSON"});

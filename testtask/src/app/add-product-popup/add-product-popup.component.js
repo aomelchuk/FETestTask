@@ -6,10 +6,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var db_1 = require('../shared/db');
 var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var AddProductPopupComponent = (function () {
-    function AddProductPopupComponent(config, modalService, updateIncludesService) {
+    function AddProductPopupComponent(getDbService, config, modalService, updateIncludesService) {
+        var _this = this;
+        this.getDbService = getDbService;
         this.modalService = modalService;
         this.updateIncludesService = updateIncludesService;
         this.typeValues = {
@@ -27,6 +28,9 @@ var AddProductPopupComponent = (function () {
             include: []
         };
         // customize default values of modals used by this component tree
+        this.getDbService.get().subscribe(function (data) {
+            _this.db = data;
+        });
         config.backdrop = 'static';
         config.keyboard = false;
     }
@@ -40,7 +44,6 @@ var AddProductPopupComponent = (function () {
     };
     ;
     AddProductPopupComponent.prototype.ngOnInit = function () {
-        this.db = db_1.db;
     };
     AddProductPopupComponent.prototype.changeSelectedProd = function (res) {
         this.includeObj[res.typeArr] = res.include;

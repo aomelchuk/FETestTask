@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {db} from '../shared/db';
+import { GetDbService } from '../shared/get-db.service';
 
 @Component({
   selector: 'product-list',
@@ -13,8 +13,19 @@ export class ProductListComponent implements OnInit {
   db;
 
 
-  ngOnInit() {
-    this.db = db;
+ constructor(private getDbService:GetDbService) {
+//constructor() {
+   this.getDbService.get().subscribe(data=>{
+     this.db = data;
+   })
   }
+
+
+
+
+  ngOnInit() {
+
+  }
+
 
 }

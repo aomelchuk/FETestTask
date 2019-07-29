@@ -6,13 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var db_1 = require('../shared/db');
 var list_filter_pipe_1 = require('../shared/list-filter.pipe');
 var IpTemplateComponent = (function () {
-    function IpTemplateComponent(updateIncludesService) {
+    function IpTemplateComponent(getDbService, updateIncludesService) {
         var _this = this;
+        this.getDbService = getDbService;
         this.updateIncludesService = updateIncludesService;
         this.changeSelectedProductsEvent = new core_1.EventEmitter();
+        this.dbTemp = [];
+        this.getDbService.get().subscribe(function (data) {
+            _this.dbTemp = _this.geDBData(data);
+        });
         this.subscription = this.updateIncludesService.getObject().subscribe(function (includeObj) {
             switch (_this.typeArr) {
                 case 'include':
@@ -27,8 +31,6 @@ var IpTemplateComponent = (function () {
         });
     }
     IpTemplateComponent.prototype.ngOnInit = function () {
-        this.dbTemp = [];
-        this.dbTemp = this.geDBData(db_1.db);
         this.preIncludeDB = [];
         this.preIncludeIncl = [];
         this.include = [];
@@ -98,6 +100,9 @@ var IpTemplateComponent = (function () {
     __decorate([
         core_1.Input()
     ], IpTemplateComponent.prototype, "typeArr");
+    __decorate([
+        core_1.Input()
+    ], IpTemplateComponent.prototype, "db");
     __decorate([
         core_1.Output()
     ], IpTemplateComponent.prototype, "changeSelectedProductsEvent");

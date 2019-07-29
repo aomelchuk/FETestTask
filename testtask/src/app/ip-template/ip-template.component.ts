@@ -1,7 +1,7 @@
 import {Input, Output, Component, OnInit, EventEmitter} from '@angular/core';
 import {Subscription} from 'rxjs';
 
-import {db} from '../shared/db';
+import {GetDbService} from '../shared/get-db.service';
 import  {ListFilterPipe} from '../shared/list-filter.pipe';
 import {UpdateIncludesService} from '../shared/update-includes.service';
 
@@ -15,6 +15,7 @@ export class IpTemplateComponent implements OnInit {
 
   @Input() includeArr:any;
   @Input() typeArr:string;
+  @Input() db;
 
   @Output() changeSelectedProductsEvent = new EventEmitter<any>();
 
@@ -28,9 +29,14 @@ export class IpTemplateComponent implements OnInit {
   subscription:Subscription;
 
 
-  constructor(private updateIncludesService:UpdateIncludesService) {
+  constructor(private getDbService:GetDbService, private updateIncludesService:UpdateIncludesService) {
+    this.dbTemp = [];
 
 
+   this.getDbService.get().subscribe(data=>{
+      this.dbTemp = this.geDBData(data);
+    });
+    
     this.subscription = this.updateIncludesService.getObject().subscribe(includeObj => {
 
 
@@ -52,8 +58,7 @@ export class IpTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dbTemp = [];
-    this.dbTemp = this.geDBData(db);
+
 
     this.preIncludeDB = [];
     this.preIncludeIncl = [];
@@ -72,7 +77,7 @@ export class IpTemplateComponent implements OnInit {
 
 
 
-  updateDBList(typeStr:string, includeObj) {  
+  updateDBList(typeStr:string, includeObj) {
     for (let ii in this.dbTemp) {
       for (let iy in includeObj[typeStr]) {
         if (this.dbTemp[ii].id == includeObj[typeStr][iy].id) {

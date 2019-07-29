@@ -6,12 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var db_1 = require('../shared/db');
 var ProductListComponent = (function () {
-    function ProductListComponent() {
+    function ProductListComponent(getDbService) {
+        var _this = this;
+        this.getDbService = getDbService;
+        //constructor() {
+        this.getDbService.get().subscribe(function (data) {
+            _this.db = data;
+        });
     }
     ProductListComponent.prototype.ngOnInit = function () {
-        this.db = db_1.db;
     };
     ProductListComponent = __decorate([
         core_1.Component({
