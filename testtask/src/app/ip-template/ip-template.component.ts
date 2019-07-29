@@ -38,7 +38,7 @@ export class IpTemplateComponent implements OnInit {
 
     this.subscription = this.updateIncludesService.getObject().subscribe(res => {
 
-      console.log(res)
+    
 
       switch (this.typeArr) {
         case 'include':

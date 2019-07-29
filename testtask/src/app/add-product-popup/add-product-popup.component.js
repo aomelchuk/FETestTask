@@ -27,7 +27,6 @@ var AddProductPopupComponent = (function () {
             pass: [],
             include: []
         };
-        // customize default values of modals used by this component tree
         this.getDbService.get().subscribe(function (data) {
             _this.db = data;
         });
@@ -46,7 +45,6 @@ var AddProductPopupComponent = (function () {
     AddProductPopupComponent.prototype.ngOnInit = function () {
     };
     AddProductPopupComponent.prototype.changeSelectedProd = function (res, typeArr) {
-        console.log(res);
         this.includeObj[typeArr] = res.include;
         this.updateIncludesService.sendObject({ includeObj: this.includeObj, includeBuff: res.includeBuff });
     };

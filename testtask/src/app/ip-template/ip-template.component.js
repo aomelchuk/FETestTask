@@ -17,7 +17,6 @@ var IpTemplateComponent = (function () {
             _this.dbTemp = _this.geDBData(data);
         });
         this.subscription = this.updateIncludesService.getObject().subscribe(function (res) {
-            console.log(res);
             switch (_this.typeArr) {
                 case 'include':
                     _this.updateDBList('pass', res.includeObj, res.includeBuff);

@@ -43,7 +43,7 @@
 
           <div class="row">
           <div class="col-md-6 py-2">
-            <input class="form-control" type="text" name="newProductValidValue" #newProductValidValue="ngModel" [ngClass]="{'invalid-form': newProductValidValue.invalid && addForm.submitted}"  placeholder="Valid value" ngModel value="" [disabled]="addForm.value.newProductType!='BASIC_SINGLE'" [required]="addForm.value.newProductType=='BASIC_SINGLE'"> <!-- change-->
+            <input class="form-control" type="text" name="newProductValidValue" #newProductValidValue="ngModel" [ngClass]="{'invalid-form': newProductValidValue.invalid && addForm.submitted}"  placeholder="Valid value" ngModel value="" [disabled]="addForm.value.newProductType!='BASIC_SINGLE'" [required]="addForm.value.newProductType=='BASIC_SINGLE'">
           </div>
           <div class="col-md-6 py-2">
             <input class="form-control"  [ngClass]="{'invalid-form': newProductPrice.invalid && addForm.submitted}" type="text" name="newProductPrice" #newProductPrice="ngModel" ngModel placeholder="Price"  required>
@@ -51,7 +51,7 @@
         </div>
           <div class="row">
             <div class="col-md-6 py-2">
-              <input class="form-control" type="text" name="newProductRechargePrice" #newProductRechargePrice="ngModel" ngModel placeholder="Recharge price"  [ngClass]="{'invalid-form': newProductRechargePrice.invalid && addForm.submitted}" [disabled]="!addForm.value.newProductAllowRecharge" [required]="addForm.value.newProductAllowRecharge"> <!-- change-->
+              <input class="form-control" type="text" name="newProductRechargePrice" #newProductRechargePrice="ngModel" ngModel placeholder="Recharge price"  [ngClass]="{'invalid-form': newProductRechargePrice.invalid && addForm.submitted}" [disabled]="!addForm.value.newProductAllowRecharge" [required]="addForm.value.newProductAllowRecharge">
             </div>
             <div class="col-md-6 py-2 mb-3">
               <div class="form-check">

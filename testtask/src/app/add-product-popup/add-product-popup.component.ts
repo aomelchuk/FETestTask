@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { saveAs } from 'file-saver';
 
 
@@ -34,7 +33,7 @@ export class AddProductPopupComponent implements OnInit {
   };
 
   constructor(private getDbService:GetDbService, config:NgbModalConfig, private modalService:NgbModal, private updateIncludesService:UpdateIncludesService) {
-    // customize default values of modals used by this component tree
+    
     this.getDbService.get().subscribe(data=> {
       this.db = data;
     });
@@ -59,8 +58,7 @@ export class AddProductPopupComponent implements OnInit {
 
   }
 
-  changeSelectedProd(res, typeArr) {
-    console.log(res);
+  changeSelectedProd(res, typeArr) { 
     this.includeObj[typeArr] = res.include;
     this.updateIncludesService.sendObject({includeObj:this.includeObj,includeBuff: res.includeBuff});
   }
