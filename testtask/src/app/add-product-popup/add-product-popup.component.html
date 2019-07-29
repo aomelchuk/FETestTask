@@ -1,5 +1,5 @@
 <ng-template #content let-c="close" let-d="dismiss">
-
+  <form name="addForm"  #addForm="ngForm" novalidate  (ngSubmit)="addForm.form.valid && createNewProduct(newProductCustomerType.value, newProductName.value, addForm.value.newProductValidValue, addForm.value.newProductPrice, newProductSku.value, newProductType.value, addForm.value.newProductAllowRecharge, newProductRechargePrice.value); " ><!--c('Save click')-->
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Create new product</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -13,26 +13,29 @@
     <!--popup body -->
     <div class="row">
       <div class="col-md-12">
-        <form  #addForm="ngForm"  >
+
 
           <div class="row">
             <div class="col-md-6 py-2">
-              <input class="form-control" type="text" name="newProductSku" ngModel  placeholder="SKU">
+              <input class="form-control" type="text" name="newProductSku" #newProductSku="ngModel"  ngModel  placeholder="SKU"  [ngClass]="{'invalid-form': newProductSku.invalid && addForm.submitted}" required>
+              <div *ngIf="addForm.submitted && newProductSku.invalid" class="invalid-feedback">
+                <div *ngIf="newProductSku.errors.required">Title is required</div>
+              </div>
             </div>
             <div class="col-md-6 py-2">
-              <input class="form-control" type="text" name="newProductName"  ngModel  placeholder="Name">
+              <input class="form-control" type="text" name="newProductName"  #newProductName="ngModel" ngModel  placeholder="Name" [ngClass]="{'invalid-form': newProductName.invalid && addForm.submitted}" required>
 
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-6 py-2">
-              <select class="form-control" name="newProductType"  placeholder="Type" ngModel="BASIC_SINGLE" >
+              <select class="form-control" name="newProductType" #newProductType="ngModel" placeholder="Type" ngModel="BASIC_SINGLE" >
                 <option  *ngFor="let type of typeValues | keyvalue" value="{{type.key}}" >{{type.value}}</option>
               </select>
             </div>
             <div class="col-md-6 py-2">
-              <select class="form-control" name="newProductCustomerType"  placeholder="Customer  Type" ngModel="ADULT" > <!-- change!! -->
+              <select class="form-control" name="newProductCustomerType" #newProductCustomerType="ngModel"   placeholder="Customer  Type" ngModel="ADULT" > <!-- change!! -->
                 <option  *ngFor="let type of customerTypeValues | keyvalue" value="{{type.key}}" >{{type.value}}  </option>
               </select>
             </div>
@@ -40,15 +43,15 @@
 
           <div class="row">
           <div class="col-md-6 py-2">
-            <input class="form-control" type="text" name="newProductValidValue" placeholder="Valid value" ngModel value="" [disabled]=" addForm.value.newProductType!='BASIC_SINGLE'"> <!-- change-->
+            <input class="form-control" type="text" name="newProductValidValue" #newProductValidValue="ngModel" [ngClass]="{'invalid-form': newProductValidValue.invalid && addForm.submitted}"  placeholder="Valid value" ngModel value="" [disabled]="addForm.value.newProductType!='BASIC_SINGLE'" [required]="addForm.value.newProductType=='BASIC_SINGLE'"> <!-- change-->
           </div>
           <div class="col-md-6 py-2">
-            <input class="form-control" type="text" name="newProductPrice" ngModel placeholder="Price" >
+            <input class="form-control"  [ngClass]="{'invalid-form': newProductPrice.invalid && addForm.submitted}" type="text" name="newProductPrice" #newProductPrice="ngModel" ngModel placeholder="Price"  required>
           </div>
         </div>
           <div class="row">
             <div class="col-md-6 py-2">
-              <input class="form-control" type="text" name="newProductRechargePrice" ngModel placeholder="Recharge price" [disabled]="!addForm.value.newProductAllowRecharge"> <!-- change-->
+              <input class="form-control" type="text" name="newProductRechargePrice" #newProductRechargePrice="ngModel" ngModel placeholder="Recharge price"  [ngClass]="{'invalid-form': newProductRechargePrice.invalid && addForm.submitted}" [disabled]="!addForm.value.newProductAllowRecharge" [required]="addForm.value.newProductAllowRecharge"> <!-- change-->
             </div>
             <div class="col-md-6 py-2 mb-3">
               <div class="form-check">
@@ -81,7 +84,9 @@
 
 
 
-        </form>
+
+
+
       </div>
     </div>
     <!-- end popup body-->
@@ -90,8 +95,9 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="createNewProduct(addForm.value.newProductCustomerType, addForm.value.newProductName, addForm.value.newProductValidValue, addForm.value.newProductPrice, addForm.value.newProductSku, addForm.value.newProductType, addForm.value.newProductAllowRecharge, addForm.value.newProductRechargePrice); c('Save click')">Create</button>
+    <button type="button" class="btn btn-outline-dark" type="submit" >Create</button> <!--[disabled]="addForm.pristine || addForm.invalid"  -->
   </div>
+  </form>
 </ng-template>
 
 <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Create a product</button>

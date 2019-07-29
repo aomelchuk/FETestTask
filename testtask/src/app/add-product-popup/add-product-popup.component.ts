@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm} from '@angular/forms';
+import { NgForm, FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { saveAs } from 'file-saver';
 
 
@@ -15,29 +15,9 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./add-product-popup.component.scss'],
   providers: [NgbModalConfig, NgbModal]
 })
+
 export class AddProductPopupComponent implements OnInit {
-
-  constructor(private getDbService:GetDbService, config: NgbModalConfig, private modalService: NgbModal, private updateIncludesService:UpdateIncludesService) {
-    // customize default values of modals used by this component tree
-    this.getDbService.get().subscribe(data=>{
-      this.db = data;
-    });
-
-    config.backdrop = 'static';
-    config.keyboard = false;
-  }
-
-  open(content) {
-    try {
-      this.modalService.open(content);
-    }
-   catch (ex) {
-     console.log(ex);
-   }
-  };
-
-
-  db:any[];
+  db;
   typeValues = {
     'BASIC_SINGLE':'Basic single',
     'BASIC_VALID_HOURS':'Basic valid hours',
@@ -51,7 +31,29 @@ export class AddProductPopupComponent implements OnInit {
   includeObj= {
     pass: [],
     include:[]
-  }  ;
+  };
+
+  constructor(private getDbService:GetDbService, config:NgbModalConfig, private modalService:NgbModal, private updateIncludesService:UpdateIncludesService) {
+    // customize default values of modals used by this component tree
+    this.getDbService.get().subscribe(data=> {
+      this.db = data;
+    });
+
+    config.backdrop = 'static';
+    config.keyboard = false;
+  }
+
+  open(content) {
+    try {
+      this.modalService.open(content);
+    }
+    catch (ex) {
+      console.log(ex);
+    }
+  };
+
+
+
 
   ngOnInit() {
 
