@@ -6,13 +6,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
+var operators_1 = require('rxjs/operators');
 var GetDbService = (function () {
     function GetDbService(http) {
         this.http = http;
         this.sourceUrl = 'https://raw.githubusercontent.com/makedonmax/test_data/master/data.txt';
+        this.db = [];
+        /*this.get().subscribe(data=>{
+          this.db = data
+          console.log(this.db);
+        });*/
     }
+    GetDbService.prototype.getDb = function () {
+        return this.db;
+    };
     GetDbService.prototype.get = function () {
-        return this.http.get(this.sourceUrl);
+        var _this = this;
+        console.log("zapros");
+        return this.http.get(this.sourceUrl).pipe(operators_1.map(function (res) { return _this.db = res; }));
     };
     GetDbService = __decorate([
         core_1.Injectable({

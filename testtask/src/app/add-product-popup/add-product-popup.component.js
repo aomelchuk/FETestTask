@@ -9,7 +9,6 @@ var core_1 = require('@angular/core');
 var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var AddProductPopupComponent = (function () {
     function AddProductPopupComponent(getDbService, config, modalService, updateIncludesService) {
-        var _this = this;
         this.getDbService = getDbService;
         this.modalService = modalService;
         this.updateIncludesService = updateIncludesService;
@@ -27,9 +26,7 @@ var AddProductPopupComponent = (function () {
             pass: [],
             include: []
         };
-        this.getDbService.get().subscribe(function (data) {
-            _this.db = data;
-        });
+        this.db = this.getDbService.getDb();
         config.backdrop = 'static';
         config.keyboard = false;
     }

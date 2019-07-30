@@ -14,11 +14,11 @@ export class IpTemplateComponent implements OnInit {
 
   @Input() includeArr:any;
   @Input() typeArr:string;
-  @Input() db;
+
 
   @Output() changeSelectedProductsEvent = new EventEmitter<any>();
 
-
+  db;
   dbTemp;
   preIncludeDB;
   preIncludeIncl;
@@ -30,15 +30,12 @@ export class IpTemplateComponent implements OnInit {
   constructor(private getDbService:GetDbService, private updateIncludesService:UpdateIncludesService) {
     this.dbTemp = [];
 
-
-
-   this.getDbService.get().subscribe(data=>{
-      this.dbTemp = this.geDBData(data);
-    });
+    this.db = this.getDbService.getDb();
+    this.dbTemp = this.geDBData(this.db);
 
     this.subscription = this.updateIncludesService.getObject().subscribe(res => {
 
-    
+
 
       switch (this.typeArr) {
         case 'include':

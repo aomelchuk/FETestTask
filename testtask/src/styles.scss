@@ -5,6 +5,9 @@
 
 .modal-content {
   max-width:960px;
+
+    margin: 0 auto;
+
 }
 .modal-dialog {
   max-width: 70%;
@@ -17,6 +20,8 @@
 .modal-body{
   max-height: 400px;
   overflow-y: scroll;
+
+
 }
 
 .table-wrapper {

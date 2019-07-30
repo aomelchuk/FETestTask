@@ -33,10 +33,8 @@ export class AddProductPopupComponent implements OnInit {
   };
 
   constructor(private getDbService:GetDbService, config:NgbModalConfig, private modalService:NgbModal, private updateIncludesService:UpdateIncludesService) {
-    
-    this.getDbService.get().subscribe(data=> {
-      this.db = data;
-    });
+
+    this.db =  this.getDbService.getDb();
 
     config.backdrop = 'static';
     config.keyboard = false;
@@ -58,7 +56,7 @@ export class AddProductPopupComponent implements OnInit {
 
   }
 
-  changeSelectedProd(res, typeArr) { 
+  changeSelectedProd(res, typeArr) {
     this.includeObj[typeArr] = res.include;
     this.updateIncludesService.sendObject({includeObj:this.includeObj,includeBuff: res.includeBuff});
   }

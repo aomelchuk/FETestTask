@@ -13,9 +13,8 @@ var IpTemplateComponent = (function () {
         this.updateIncludesService = updateIncludesService;
         this.changeSelectedProductsEvent = new core_1.EventEmitter();
         this.dbTemp = [];
-        this.getDbService.get().subscribe(function (data) {
-            _this.dbTemp = _this.geDBData(data);
-        });
+        this.db = this.getDbService.getDb();
+        this.dbTemp = this.geDBData(this.db);
         this.subscription = this.updateIncludesService.getObject().subscribe(function (res) {
             switch (_this.typeArr) {
                 case 'include':
@@ -114,9 +113,6 @@ var IpTemplateComponent = (function () {
     __decorate([
         core_1.Input()
     ], IpTemplateComponent.prototype, "typeArr");
-    __decorate([
-        core_1.Input()
-    ], IpTemplateComponent.prototype, "db");
     __decorate([
         core_1.Output()
     ], IpTemplateComponent.prototype, "changeSelectedProductsEvent");
